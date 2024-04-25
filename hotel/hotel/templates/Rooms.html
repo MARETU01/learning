@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Booking System - Room Info</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 900px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+    }
+
+    .room {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .room-info {
+      width: 250px;
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .room-photo {
+      width: 200px;
+      height: 150px;
+      background-color: #ccc;
+      margin: 0 auto 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .room-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .room-info p {
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .back-button button {
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out;
+      margin-right: 10px;
+    }
+
+    .back-button button:last-child {
+      background-color: #e74c3c;
+    }
+
+    .back-button button:hover {
+      background-color: #219350;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Room Information</h1>
+    <div class="room">
+      <div class="room-info">
+        <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 1 Photo" style="width: 200px; height: 150px;">
+            </div>
+        <p>Room Type: Single</p>
+        <p>Price Per Night: {{ Single_price }}￥</p>
+        <p>remaining quantity: {{ Single_available_count }}</p>
+      </div>
+      <div class="room-info">
+        <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 1 Photo" style="width: 200px; height: 150px;">
+            </div>
+        <p>Room Type: Double </p>
+        <p>Price Per Night: {{ Double_price }}￥</p>
+        <p>remaining quantity: {{ Double_available_count }}</p>
+      </div>
+      <div class="room-info">
+        <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 1 Photo" style="width: 200px; height: 150px;">
+            </div>
+        <p>Room Type: Suite</p>
+        <p>Price Per Night: {{ Suite_price }}￥</p>
+        <p>remaining quantity: {{ Suite_available_count }}</p>
+      </div>
+    </div>
+    <div class="back-button">
+       <button onclick="location.href='/book'">Back to the book page</button>
+      <button onclick="location.href='/index'">Back to the main page</button>
+    </div>
+  </div>
+</body>
+</html>

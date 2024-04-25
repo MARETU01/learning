@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin System Home Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 600px;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .button-container button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .button-container button:hover {
+      background-color: #219350;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin System Home Page</h1>
+
+    <div class="button-container">
+      <button onclick="location.href='/manager/rooms'">Room Management</button>
+      <button onclick="location.href='/manager/refund'">Refund Progress</button>
+      <button onclick="location.href='/manager/bill'">Bill Management</button>
+      <button onclick="location.href='/logout'">Log Out</button>
+    </div>
+  </div>
+</body>
+</html>

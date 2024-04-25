@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hotel Booking System - Booking Management</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 600px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+      text-align: center;
+    }
+
+    .booking-info {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .booking-info p {
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .cancel-button,
+    .back-button {
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .cancel-button {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .back-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .cancel-button:hover,
+    .back-button:hover {
+      background-color: #c0392b;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+      transition: color 0.3s ease-in-out;
+    }
+
+    a:hover {
+      color: #2574a9;
+    }
+
+    /* 新添加的样式 */
+    .booking-form {
+      margin-top: 10px;
+    }
+
+    .booking-form input,
+    .booking-form button {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Hotel Booking System</h1>
+
+    <div class="booking-info">
+    {% if bills %}
+      {% for bill in bills %}
+      <form id="bookingForm1" action="/manage_booking" method="post">
+       <input type="hidden" name="booking_id" value="{{ bill.booking_id }}">
+        <p><strong>Booking ID:</strong> {{ bill.booking_id }}</p>
+        <p><strong>Room ID:</strong> {{ bill.room_id }}</p>
+        <p><strong>Check-in Date:</strong> {{ bill.check_in_date }}</p>
+        <p><strong>Check-out Date:</strong> {{ bill.check_out_date }}</p>
+        <p><strong>Room Type:</strong> {{ bill.room.type.value }}</p>
+        <p><strong>Order Status:</strong> Unfinished</p>
+        <button class="cancel-button" type="submit">Cancel Booking</button>
+      </form>
+      {% endfor %}
+    {% else %}
+      <h3>You haven't booked a room yet, please make a reservation first</h3>
+    {% endif %}
+    </div>
+    <button class="back-button" onclick="location.href='/index'">Back</button>
+  </div>
+</body>
+
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Room Management Interface</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 500px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+    }
+
+    .photo-column {
+      display: flex;
+      align-items: center;
+    }
+
+    .room-photo {
+      margin-right: 20px;
+    }
+
+    button,
+    input[type="submit"] {
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      width: 100px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    input[type="submit"] {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .button-container {
+      display: flex;
+    }
+
+    .green-button button {
+      background-color: #4caf50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Room Management Interface</h1>
+
+    <form action="/manager/rooms" method="post">
+        <div class="photo-column">
+            <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 1 Photo" style="width: 200px; height: 150px;">
+            </div>
+            <div class="room-info">
+              <strong>Single</strong>
+              <p>Remaining Quantity: {{ quantity1 }}</p>
+              <span>Original price: {{ Original_price1 }}￥</span><br>
+              <span>Put Fixed Price Here</span>
+              <input type="text" id="type1" name="type1" required>￥<br>
+            </div>
+        </div>
+      
+        <div class="photo-column">
+            <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 1 Photo" style="width: 200px; height: 150px;">
+            </div>
+            <div class="room-info">
+              <strong>Double</strong>
+              <p>Remaining Quantity: {{ quantity2 }}</p>
+              <span>Original price: {{ Original_price2 }}￥</span><br>
+              <span>Put Fixed Price Here</span>
+              <input type="text" id="type2" name="type2" required>￥<br>
+            </div>
+        </div>
+      
+        <div class="photo-column">
+            <div class="room-photo">
+              <img src="{{ url_for('static', filename='room.jpg') }}" alt="Room 3 Photo" style="width: 200px; height: 150px;">
+            </div>
+            <div class="room-info">
+              <strong>Suite</strong>
+              <p>Remaining Quantity: {{ quantity3 }}</p>
+              <span>Original price: {{ Original_price3 }}￥</span><br>
+              <span>Put Fixed Price Here</span>
+              <input type="text" id="type3" name="type3" required>￥<br>
+            </div>
+        </div>
+        <div class="price-submit">
+            <input type="submit" value="submit" style="background-color: #4caf50; color: white;">
+        </div>
+    </form>
+
+        <div class="button-container"></div>
+        <div class="green-button">
+            <button onclick="location.href='/manager'" style="background-color: #4caf50; color: white;">Back</button>
+        </div>
+  </div>
+</body>
+</html>

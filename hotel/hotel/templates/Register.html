@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Booking System - Register</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 600px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1, h2 {
+      color: #fff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    label {
+      margin-bottom: 5px;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      background-color: rgba(255, 255, 255, 0.7); /* 调整透明度 */
+    }
+
+    input[type="submit"] {
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #219350;
+    }
+
+    a {
+      text-decoration: none;
+      color: #f6420b;
+      font-size: 14px;
+      transition: color 0.3s ease-in-out;
+    }
+
+    a:hover {
+      color: #2574a9;
+    }
+
+    p {
+      margin-top: 20px;
+      color: #fff;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hotel Booking System</h1>
+    <h2>Register</h2>
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <strong>{{ messages | join(', ') }}</strong>
+          {% endif %}
+      {% endwith %}
+    <form action="/register" method="post">
+      <label for="username">New Username:</label>
+      <input type="text" id="username" name="username" required><br>
+      <label for="password">New Password:</label>
+      <input type="password" id="password" name="password" required><br>
+      <label for="realname">Your Realname:</label>
+      <input type="text" id="realname" name="realname" required><br>
+      <label for="phone">Your Phone Number:</label>
+      <input type="text" id="phone" name="phone" required><br>
+      <input type="submit" value="Register">
+    </form>
+    <p>Already have an account? <a href="/">Login here</a></p>
+  </div>
+</body>
+</html>

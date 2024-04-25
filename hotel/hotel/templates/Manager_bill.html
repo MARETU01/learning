@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bill Management Interface</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      height: 200vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      border-radius: 10px;
+      width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #fff;
+    }
+
+    .room-type {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .room-type img {
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .room-type-name {
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .room-type p {
+      color: #fff;
+    }
+
+    .bill-container {
+      margin-top: 40px;
+    }
+
+    h2 {
+      color: #fff;
+    }
+
+    .bill-box {
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .return-button {
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .return-button:hover {
+      background-color: #219350;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bill Management</h1>
+
+    <div class="room-type">
+      <img src="{{ url_for('static', filename='room.jpg') }}" alt="house type 1 picture" style="width: 200px; height: 150px;">
+      <div class="room-type-name"><strong>Single</strong></div>
+      <div id="room-type-1-count">
+        <p>Quantity booked today: {{ quantity1 }}</p>
+      </div>
+    </div>
+
+    <div class="room-type">
+      <img src="{{ url_for('static', filename='room.jpg') }}" alt="house type 2 picture" style="width: 200px; height: 150px;">
+      <div class="room-type-name"><strong>Double</strong></div>
+      <div id="room-type-2-count">
+        <p>Quantity booked today: {{ quantity2 }}</p>
+      </div>
+    </div>
+
+    <div class="room-type">
+
+      <img src="{{ url_for('static', filename='room.jpg') }}" alt="house type 3 picture" style="width: 200px; height: 150px;">
+      <div class="room-type-name"><strong>Suite</strong></div>
+      <div id="room-type-3-count">
+        <p>Quantity booked today: {{ quantity3 }}</p>
+      </div>
+    </div>
+
+    <div class="bill-container">
+    <h2>Detailed billing statement</h2>
+    <center>
+    {% if bills %}
+      {% for bill in bills %}
+        <div class="bill-box">
+            <p>Name of Booker: {{ bill.account.realname }}</p>
+            <p>Phone number: {{ bill.account.phone }}</p>
+            <p>Room type: {{ bill.room.type.value }}</p>
+            <p>Booking amount: {{ bill.amount }}￥</p>
+            <p>Booking date: {{ bill.check_in_date }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+    <h3>There are no bills today</h3>
+    {% endif %}
+  </center>
+
+    <button class="return-button" onclick="location.href='/manager'">back</button>
+    </div>
+  </div>
+</body>
+</html>

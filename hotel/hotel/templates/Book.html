@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Booking System</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      color: #fff;
+      animation: gradientAnimation 10s infinite alternate-reverse;
+    }
+
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      width: 850px;
+      padding: 40px;
+      background: linear-gradient(45deg, #3498db, #e67e22);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    h1 {
+      color: #fff;
+    }
+
+    p {
+      color: #fff;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      color: #fff;
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: #fff;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #calculate-price,
+    #show-room-info,
+    #book-room,
+    #go-back {
+      background-color: #27ae60;
+    }
+
+    #log-out {
+      background-color: #FF5733;
+    }
+
+    #calculate-price:hover,
+    #show-room-info:hover,
+    #book-room:hover,
+    #go-back:hover,
+    #log-out:hover {
+      background-color: #219350;
+    }
+
+    #price-result {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hotel Booking System</h1>
+    <p>Welcome to our hotel booking system.</p>
+
+    <form action="/book" method="get">
+    <label for="check-in">Check-In Date:</label>
+    <input type="date" id="check-in" name="check_in_date" required value="{{ session.user_selection.check_in_date if session.user_selection else '' }}">
+    
+    <label for="check-out">Check-Out Date:</label>
+    <input type="date" id="check-out" name="check_out_date" required value="{{ session.user_selection.check_out_date if session.user_selection else '' }}">
+    
+    <label for="room-type">Room Type:</label>
+    <select id="room-type" name="room_type" required>
+      <option value="single">Single</option>
+      <option value="double">Double</option>
+      <option value="suite">Suite</option>
+    </select>
+
+    <button id="calculate-price" type="submit" name="action" value="calculate">Calculate Price</button>
+
+    <button id="show-room-info" onclick="location.href='/rooms'">Show Room Info</button>
+
+    <button id="book-room" type="submit" name="action" value="book">Book Room</button>
+
+    <button id="go-back" onclick="location.href='/index'">Go Back</button>
+
+    <button id="log-out" onclick="location.href='/logout'">Log Out</button>
+    </form>
+    <div id="price-result">
+    {% if price %}
+      {% if price >= 0 %}
+        <p>Total price: {{ price }}￥</p>
+      {% else %}
+        <p>Please enter the correct date</p>
+      {% endif %}
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <strong>{{ messages | join(', ') }}</strong>
+      {% endif %}
+    {% endwith %}
+    </div>
+  </div>
+</body>
+</html>

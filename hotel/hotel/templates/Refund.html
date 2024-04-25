@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Quantity Interface</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(45deg, #3498db, #e67e22);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: linear-gradient(45deg, #3498db, #e67e22);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .refund-info {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button,
+        .approve-button,
+        .back-button {
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .button:hover,
+        .approve-button:hover,
+        .back-button:hover {
+            background-color: #219350;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Refund Progress</h1>
+            <form action="/manager/refund" method="post">
+            {% if bills %}
+                {% for bill in bills %}
+                <div class="refund-info" id="refund-info-placeholder">
+                    <input type="hidden" name="booking_id" value="{{ bill.booking_id }}">
+                    <p>Book Id: {{ bill.booking_id }}</p>
+                    <p>Name: {{ bill.account.realname }}</p>
+                    <p>Phone Number: {{ bill.account.phone }}</p>
+                    <p>Room Type: {{ bill.room.type.value }}</p>
+                    <p>Refund Amount: {{ bill.amount }}￥</p>
+                    <p>Check in date: {{ bill.check_in_date }}</p>
+                    <p>Check out date: {{ bill.check_out_date }}</p>
+                    <button type="submit" class="approve-button">Approve Refund</button>
+                </div>
+                {% endfor %}
+            {% else %}
+            <h3>There are currently no refunds that you need to handle</h3>
+            {% endif %}
+
+            <button type="button" class="back-button" onclick="location.href='/manager'">Back</button>
+        </form>
+    </div>
+</body>
+
+</html>
