@@ -1,0 +1,42 @@
+body {
+    background: url("https://delphimonster-salturgent-3000.codio-box.uk/background.jpg") no-repeat center center fixed;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: -1;  /* Ensure that the overlay is below the content */
+}
+.bg-lightblue {
+    background-color: #daf5e4;
+}
+.btn {
+    color: #66ccff;
+}
+.btn-dark {
+    background-color: #343a40;
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 676px;
+    height: 394px;
+}
+.change-image {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);  /* Center the button vertically */
+    cursor: pointer;
+    z-index: 1;  /* Ensure that the button is above the image */
+}
+.change-image.left {
+    left: 0;
+}
+.change-image.right {
+    right: 0;
+}
