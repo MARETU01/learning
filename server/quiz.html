@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quiz</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.net/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://delphimonster-salturgent-3000.codio-box.uk/my.css">
+    <script src="https://cdn.staticfile.net/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.net/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.net/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+		<div class="container">
+			<strong class="navbar-brand">Welcome</strong>
+			<div class="navbar-collapse collapse" id="navbarColor02">
+				<ul class="navbar-nav mr-auto d-flex align-items-center">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Introduction</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/quiz">Quiz</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto d-flex align-items-center">
+					<li class="nav-item">
+						<audio id="bgm" src="https://delphimonster-salturgent-3000.codio-box.uk/bgm.mp3" preload="auto" loop></audio>
+						<button class="btn" onclick="toPlay()">
+							<img src="https://delphimonster-salturgent-3000.codio-box.uk/play.png" style="width:24px; height: 24px;" id="bgm-icon" alt="bgm">
+						</button>
+					</li>
+					<li class="nav-item">
+						<form class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+							<button type="button" class="btn">️
+								<img src="https://delphimonster-salturgent-3000.codio-box.uk/search.png" style="width:20px; height: 20px;" alt="➡️">
+							</button>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<br><br><br>
+	<div class="container mt-5 text-center" id="question-container">
+		<div id="start">
+			<h1>Welcome to the Quiz Page</h1>
+			<h4>In this page, you are supposed to answer 10 questions. You have 15 seconds for each question.</h4>
+			<h4>If the time runs out before you submit the answer, it will be counted as an incorrect answer.</h4>
+			<h4>Now input your name below and start quiz</h4>
+			<div class="d-flex justify-content-center">
+				<input type="text" id="name" class="form-control w-50 mb-3" style="max-width: 300px;">
+			</div>
+			<button class="btn btn-primary text-dark" onclick="checkName()">Start</button>
+		</div>
+		<div id="correct" class="transition" style="display: none;">
+			<h1 style="color: green;">Your answer is correct!</h1>
+			<br><br>
+			<button class="btn btn-primary text-dark" onclick="nextQuestion(this)">Next question</button>
+		</div>
+		<div id="wrong" class="transition" style="display: none;">
+			<h1 style="color: red;">Your answer is incorrect!</h1>
+			<br><br>
+			<button class="btn btn-primary text-dark" onclick="nextQuestion(this)">Next question</button>
+		</div>
+		<form action="/quiz" method="post" id="form" style="display: none;">
+			<input type="hidden" name="username" id="username" value="">
+			<input type="hidden" name="score" id="score" value="">
+			<input type="hidden" name="time" id="time" value="">
+			<input type="submit" id="submit" class="btn btn-primary text-dark" value="View Leaderboard">
+		</form>
+		<div id="1" style="display: none;">
+			<h1>Question 1</h1>
+			<h3>What is the capital of France?</h3>
+			<h4>A. Madrid</h4><h4>B. Rome</h4><h4>C. Paris</h4><h4>D. Berlin</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="2" style="display: none;">
+			<h1>Question 2</h1>
+			<h3>Which gas is most abundant in Earth's atmosphere?</h3>
+			<h4>A. Oxygen</h4><h4>B. Nitrogen</h4><h4>C. Carbon Dioxide</h4><h4>D. Helium</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="3" style="display: none;">
+			<h1>Question 3</h1>
+			<h3>Who painted the Mona Lisa?</h3>
+			<h4>A. Vincent van Gogh</h4><h4>B. Pablo Picasso</h4><h4>C. Leonardo da Vinci</h4><h4>D. Michelangelo</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="4" style="display: none;">
+			<h1>Question 4</h1>
+			<h3>What is the chemical symbol for water?</h3>
+			<h4>A. HO2</h4><h4>B. H2O</h4><h4>C. WO</h4><h4>D. CO2</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="5" style="display: none;">
+			<h1>Question 5</h1>
+			<h3>Calculate 47 + 39</h3>
+			<h4>A. 86</h4><h4>B. 76</h4><h4>C. 84</h4><h4>D. 92</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="6" style="display: none;">
+			<h1>Question 6</h1>
+			<h3>Which planet is closest to the sun?</h3>
+			<h4>A. Venus</h4><h4>B. Earth</h4><h4>C. Mars</h4><h4>D. Mercury</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="7" style="display: none;">
+			<h1>Question 7</h1>
+			<h3>What is the largest organ in the human body?</h3>
+			<h4>A. Liver</h4><h4>B. Skin</h4><h4>C. Brain</h4><h4>D. Heart</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="8" style="display: none;">
+			<h1>Question 8</h1>
+			<h3>Calculate 73 - 16</h3>
+			<h4>A. 57</h4><h4>B. 61</h4><h4>C. 54</h4><h4>D. 58</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="9" style="display: none;">
+			<h1>Question 9</h1>
+			<h3>Which is the first spacecraft to fly to the moon?</h3>
+			<h4>A. Chang'e 4</h4><h4>B. Apollo 13</h4><h4>C. Luna 9</h4><h4>D. Apollo 11</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<div id="10" style="display: none;">
+			<h1>Question 10</h1>
+			<h3>Calculate 93 - 55</h3>
+			<h4>A. 40</h4><h4>B. 37</h4><h4>C. 42</h4><h4>D. 38</h4>
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/A.png" alt="A" onclick="check('A')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/B.png" alt="B" onclick="check('B')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/C.png" alt="C" onclick="check('C')" style="cursor: pointer;">
+			<img src="https://delphimonster-salturgent-3000.codio-box.uk/D.png" alt="D" onclick="check('D')" style="cursor: pointer;">
+		</div>
+		<h4 id="timer" style="display: none;">Time to answer: <span id="countdown"></span> seconds</h4>
+	</div>
+	<div class="container text-center" id="leaderboard" style="display: none;">
+		<br><br>
+		<h1>Leaderboard</h1>
+	</div>
+	<footer class="bg-light text-dark py-1 fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<p>&copy; A simple example. 2024</p>
+				</div>
+				<div class="col-md-3">
+					<ul class="list-inline">
+						<li><a href="/about">About Me</a></li>
+						<li><a href="https://x.com/ludng633673252">View my Twitter</a></li>
+						<li><a href="https://github.com/MARETU01">View my Github</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<ul class="list-inline social-icons">
+						<li class="list-inline-item"><a href="https://x.com/ludng633673252" target="_blank"><img src="https://delphimonster-salturgent-3000.codio-box.uk/twitter.png" alt="twitter"></a></li>
+						<li class="list-inline-item"><a href="https://github.com/MARETU01" target="_blank"><img src="https://delphimonster-salturgent-3000.codio-box.uk/github.png" alt="github"></a></li>
+					</ul>
+				</div>
+				<div class="col-md-3">
+					<p>Made by Ding Luo.</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+<script src="https://delphimonster-salturgent-3000.codio-box.uk/my.js"></script>
+</body>
+</html>
