@@ -1,53 +1,77 @@
-课程作业报告
+# Course Assignment Report
 
-引言:
-本报告概述了开发过程、整体设计模式、实施细节以及在开发过程中遇到的挑战。构建的Web应用包含三个页面：首页（根页面），提供网站概览；关于页面，包含个人简介；测验页面，具备动态后端功能的问答应用。
+## Introduction:
+This report includes my development process, overall design pattern and implementation details, and challenges encountered during developing. The web application has three pages: Introduction page (root page), which provides a brief preview of the whole website; About page, which includes some informations about me; Quiz page, which  a quiz application with dynamic back-end functionality.
 
-启动应用需在终端执行以下命令：“cd server/” 和 “npm start”。服务器将在Codio的本地地址运行：“https://delphimonster-salturgent-3000.codio-box.uk/”。
+For starting the application, you should use Terminal and enter these commands: "cd server/" and "npm start". Then the server will run at the localhost of this Codio: "https://delphimonster-salturgent-3000.codio-box.uk/".
 
-注意： 由于Bootstrap官方CDN在我地理位置加载缓慢，我采用了国内CDN服务加速资源加载。如需更换CDN服务，仅需在HTML文件中将Bootstrap相关链接代码替换成新CDN地址即可无缝迁移，无需对项目结构或代码做重大调整。
+**Note that:** Due to the slow loading speed of the official Bootstrap CDN in my geographical location, I chose to use the domestic Bootstrap CDN service to accelerate resource loading.If you are considering replacing the CDN service, simply replace the following Bootstrap related link codes in the existing HTML file with new CDN addresses to seamlessly migrate without making significant changes to the project structure or code.
 
-项目概述
-前端
-所有页面采用模板提升用户友好度和简洁性，遵循响应式设计原则。顶部导航固定显示，底部有包含个人联系信息的页脚。背景使用图片填充，美化网站视觉效果。
+Codes to replace (in every html file):
 
-导航栏允许用户在不同页面间切换，右侧设有播放图标和搜索框。播放图标控制背景音乐播放/暂停，搜索框预留未来功能扩展。
-首页
-首页采用双列布局，配图丰富内容，并添加链接帮助用户跳转。
+    <script src="https://cdn.staticfile.net/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.net/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.net/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-关于页面
-展示个人详情、爱好及作品。右侧自动切换照片墙由“/static/my.js”实现，展示区含音频播放标签。
+And when you first enter the page, it may need some time to load the static files, especially when you press the "view leaderboard" button in the quiz page. If you wait for a long time, just refresh the browsers.
 
-测验页面
-测验页面较为复杂，包含10道题目，答题时有计时器记录时间。完成后显示成绩、用时，并可提交查看排行榜。答题逻辑和答案存储通过JavaScript实现。
+## Project Overview
 
-排行榜页面
-简单的页面结构，用于动态展示通过socket.IO实时更新的排行榜。
+### Front end
 
-CSS
-利用Bootstrap框架实现响应式设计，并参考了专业网站模板（https://wowthemesnet.github.io/template-mundana-bootstrap-html/index.html）。自定义CSS文件“/static/my.css”改善外观，如半透明背景和图片尺寸调整。
+All the pages use a template to make the appearance more user-friendly and simple, following responsive design principles. The template includes a navigation on the top, which is fixed on the top of the pages. There is also a footer at the bottom of the page, which includes some contact links of me. And for background, I use a picture to fill the background, making the website more beautiful.
 
-JavaScript
-“/static/my.js”整合音频控制、图片轮播、计时器及在线问答系统，全面展示了JavaScript在DOM操作、事件监听、时间控制和数据处理上的能力。
+In the navigation, users can navigate between different pages. On the right side of the navigation bar, there is a icon of "play" and a search bar. You can click the icon for listening the bgm, click again to pause or continue. The search bar doesn't make sense, but for future functionality, it can be utilized for searching content within the website or providing related search features.
 
-后端
-服务器应用采用Express、Socket.IO和Node.js创建实时交互的Web服务，用于测验游戏的排行榜实时更新。
+#### Introduction Page
 
-Express负责路由处理；
-HTTP服务实例供Socket.IO挂载；
-Socket.IO实现客户端与服务器双向实时通信；
-Body-Parser处理POST请求的请求体；
-FS模块提供静态文件服务。
-路由
-设置三个GET请求分别发送三个静态HTML文件，一个POST请求用于存储成绩到“/static/leaderboard.txt”。
+The Introduction page (root page) adopts a dual column layout, and I use some images to enrich the content. Some links are added to help users to redirect to other pages.
 
-Socket.IO
-服务器端创建io对象，客户端访问排行榜页面时建立连接。当客户端连接且排行榜更新时，服务器发出“leaderboard”事件并传递数据给所有客户端，客户端监控此事件并据此更新界面。
+#### About Page
 
-挑战与解决方案
-设计：借助专业模板确保跨设备良好布局。
-素材：从免费资源站（https://iconarchive.com/）获取图片和图标。
-背景图：调整CSS使图片半透明且随页面滚动。
-背景音乐：因浏览器策略限制自动播放，改用图标控制。
-计时器：通过前端JavaScript管理答题时间。
-实时通信：通过学习官方文档和求助成功配置Socket.IO。
+In the About page, there are some details for me, including my personal informations, my hobbies and exhibition of works. At the right side of the page, there is an automatically switch photo wall, which is completed by JavaScript written in "/static/my.js". In the display section, there is an audio tag to play a music.
+
+#### Quiz Page
+
+The Quiz page is much more difficult than other pages. In this page, you can answer ten questions. When you are doing the quiz, there will be a timer to record the time. After you finish, you can see the result and, time you have used and a button to submit and see the leaderboard. The logic for answering questions and storing answers are implemented through JavaScript.
+
+#### Leaderboard Page
+
+The Leaderboard page is a simple page, which only contains the template, and a div tag to display the leaderboard. In this page, you can take a dynamic look at this ranking list, which is implemented by socket.IO.
+
+#### CSS
+
+For the CSS part, I fully utilized the Bootstrap framework to achieve responsive design, ensuring good display effects on different devices. And I also referred a website template(https://wowthemesnet.github.io/template-mundana-bootstrap-html/index.html). I also wrote a css file "/static/my.css" to improve the appearance, like the semi transparent background and some images' sizes.
+
+#### JavaScript
+
+In the "/static/my.js", it integrates audio control, automatic image rotation, timer function, and a simple online Q&A system. This file fully utilizes the characteristics of JavaScript in DOM operations, event monitoring, time control, and data processing, achieving diversified functional integration from simple audio control to complex interaction processes.
+
+### Back end
+
+The server application utilizes Express, Socket.IO, and Node.js to create an interactive web service featuring real-time updates for a leaderboard as part of a quiz game.
+
+#### Initial Setup
+
+Express: Sets up a server to handle routing for different pages.
+HTTP: Creates an HTTP server instance to which Socket.IO will attach.
+Socket.IO: Facilitates real-time, bidirectional communication between clients and the server.
+Body-Parser: Parses incoming request bodies in middleware before handlers, useful for processing POST requests.
+FS: Display static files.
+
+#### Routes
+
+There are three "get" requests and a "post" request functions. Three "get" requests each send three static html files, and the "post" request will store the form (score) into a txt file ("/static/leaderboard.txt") extra.
+
+#### Socket.IO
+
+Inside the server (index.js), an io object is created. When client receives the leaderboard page, the internal JavaScript code will create a socket object connected to the io in the server. If a client is connected to the server, which means that there is a post request done and the leaderboard is updated, the server will emit an event "leaderboard" and send the data to all clients. The client's JavaScript code will also monitoring this event. After it catches this event, it will clear all the items in the leaderboard and reorder it.
+
+### Challenges and Solutions
+
+**Design:** It is difficult to ensure that the website presents a beautiful and user-friendly layout on different devices and screen sizes. So I referred to and draw on professional website templates.
+**Source material:** Initially, I faced the problem of scarce resources and found it difficult to find elements such as images and icons that could meet design requirements and be suitable for use. To solve this problem, I found a free material website (https://iconarchive.com/) and also added some pictures of me to my website.
+**Background image:** At first, I tried to add a background image to the website to enhance the visual effect, but soon found that the position of the image was not ideal, and the image remained fixed during page scrolling. Moreover, the high saturation of the background image affected the readability of the page text. So I modified the CSS, I adjust the fixed position of the image to fixed, and set transparency to the background using the rgba() color mode to make the background image semi transparent.
+**Bgm:** At first I wanted to autoplay the music when the websit is loaded but finally failed. Then I learned from the Internet that  due to the privacy and user experience policies of modern browsers, automatic audio playback is mostly disabled by default. So I adjusted the design concept and added an icon to control the bgm.
+**Timer:** I first found it difficult to record the time that user answer the questions. Then I checked up online and thought of a solution: In the front end JavaScript code, creating a Date object when user start the quiz. And this timer will stop when they choose an option. When they click the "Next Question" button, this timer will restart forming a circle.
+**Real-Time Communication Setup:** Initially struggled with configuring Socket.IO for bidirectional communication. My solution is studying online, reading the official documentation and asking for help. Then I implemented connection handling correctly.
