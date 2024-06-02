@@ -13,3 +13,10 @@ The "web_crawler_learning" floder includes some python codes about web crawler, 
 
 Web crawler technology stack:
 requests, selenium, pymysql(storing datas)
+
+
+The "server" floder includes a web application done with express.js frame and bootstrap@4. At first, you should run these codes: "npm install express" and  "npm install socket.io" to install related packages. Inside the website, there are three pages, including introduction, about and quiz page.
+
+Technology stack:
+Backend: Node.js, Express, Socket,IO
+Frontend: HTML, CSS, JavaScript, Bootstrap@4
