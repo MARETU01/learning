@@ -24,7 +24,7 @@ class DoubanSpider(scrapy.Spider):
 
     def parse_data(self, response):
         item = response.meta['item2']
-        con = response.xpath('//*[@property="v:summary"]/text()').get()
+        con = response.xpath('//*[@property="v:summary"]/text()').get().strip()
         # print(content)
         item['con'] = con
         yield item
