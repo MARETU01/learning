@@ -1,0 +1,7 @@
+{
+  "smtp_server": "smtp.exmail.qq.com",
+  "port": 465,
+  "from_addr": "20223802051@m.scnu.edu.cn",
+  "password": "LuoDing0729",
+  "to_addr": "maretu_01@foxmail.com"
+}

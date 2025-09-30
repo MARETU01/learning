@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="50ef770f-31e3-4c3b-a973-f54727275571" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/thread/src/main/java/com/learning/thread/ThreadPoolDemo.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://D:/Java/jdk-21/lib/src.zip!/java.base/java/lang/Integer.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://D:/Java/jdk-21/lib/src.zip!/java.base/java/util/Arrays.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="F:\apache-maven-3.9.6\mvn_repo" />
+        <option name="userSettingsFile" value="F:\apache-maven-3.9.6\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="32MqZBCDS0e0fAOVh6zonH7iwew" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BasicThreadDemo.executor": "Run",
+    "Application.ClassLoadingDemo.executor": "Run",
+    "Application.CollectionUtilsDemo.executor": "Run",
+    "Application.DesignPatternsDemo.executor": "Run",
+    "Application.ListDemo.executor": "Run",
+    "Application.MapDemo.executor": "Run",
+    "Application.QueueDemo.executor": "Run",
+    "Application.SetDemo.executor": "Run",
+    "Application.SingletonDemo.executor": "Debug",
+    "Application.SynchronizationDemo.executor": "Run",
+    "Application.ThreadPoolDemo.executor": "Run",
+    "Application.两数之和.executor": "Run",
+    "Application.可以输入的最大单词数.executor": "Run",
+    "Maven.java-learning [clean].executor": "Run",
+    "Maven.java-learning-parent [clean].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "Spring Boot.MessageQueueApplication.executor": "Run",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/DELL/Desktop/program/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "leetcode.id",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.learning.algorithm.leetcode" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.SingletonDemo">
+    <configuration name="ClassLoadingDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learning.jvm.ClassLoadingDemo" />
+      <module name="jvm" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learning.jvm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DesignPatternsDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learning.designpattern.DesignPatternsDemo" />
+      <module name="design-patterns" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learning.designpattern.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MapDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learning.collection.MapDemo" />
+      <module name="collections" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learning.collection.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SingletonDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learning.designpattern.creational.SingletonDemo" />
+      <module name="design-patterns" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learning.designpattern.creational.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ThreadPoolDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.learning.thread.ThreadPoolDemo" />
+      <module name="thread" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.learning.thread.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="MessageQueueApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="mq" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.learning.messagequeue.MessageQueueApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SingletonDemo" />
+        <item itemvalue="Application.DesignPatternsDemo" />
+        <item itemvalue="Application.MapDemo" />
+        <item itemvalue="Application.ThreadPoolDemo" />
+        <item itemvalue="Application.ClassLoadingDemo" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="50ef770f-31e3-4c3b-a973-f54727275571" name="Changes" comment="" />
+      <created>1757240846086</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1757240846086</updated>
+      <workItem from="1757240846993" duration="657000" />
+      <workItem from="1757241559367" duration="122000" />
+      <workItem from="1757241693433" duration="5514000" />
+      <workItem from="1757293852682" duration="10000" />
+      <workItem from="1757298584249" duration="75000" />
+      <workItem from="1757312253992" duration="10134000" />
+      <workItem from="1757328361968" duration="51000" />
+      <workItem from="1757328571268" duration="652000" />
+      <workItem from="1757380654164" duration="2074000" />
+      <workItem from="1757387192866" duration="7945000" />
+      <workItem from="1757429588249" duration="10000" />
+      <workItem from="1757467643620" duration="585000" />
+      <workItem from="1757472897403" duration="1368000" />
+      <workItem from="1757474735734" duration="5178000" />
+      <workItem from="1757493239124" duration="1022000" />
+      <workItem from="1757494839842" duration="42000" />
+      <workItem from="1757494886656" duration="4471000" />
+      <workItem from="1757552899471" duration="1256000" />
+      <workItem from="1757601573763" duration="3060000" />
+      <workItem from="1757644494949" duration="12766000" />
+      <workItem from="1757664379441" duration="92000" />
+      <workItem from="1757676200055" duration="4007000" />
+      <workItem from="1757757476797" duration="4544000" />
+      <workItem from="1757822773989" duration="2752000" />
+      <workItem from="1757899046241" duration="43000" />
+      <workItem from="1757906817268" duration="625000" />
+      <workItem from="1757924492160" duration="2190000" />
+      <workItem from="1757927292356" duration="52000" />
+      <workItem from="1757928478310" duration="493000" />
+      <workItem from="1757933214075" duration="631000" />
+      <workItem from="1757989702808" duration="4090000" />
+      <workItem from="1758166418797" duration="2286000" />
+      <workItem from="1758179489725" duration="10708000" />
+      <workItem from="1758251734816" duration="10144000" />
+      <workItem from="1758268063378" duration="2432000" />
+      <workItem from="1758274893384" duration="2161000" />
+      <workItem from="1758503562489" duration="12000" />
+      <workItem from="1758506085542" duration="131000" />
+      <workItem from="1758527491074" duration="1741000" />
+      <workItem from="1758530788864" duration="865000" />
+      <workItem from="1758532740470" duration="1295000" />
+      <workItem from="1758536811241" duration="1269000" />
+      <workItem from="1758538091697" duration="399000" />
+      <workItem from="1758589614344" duration="8000" />
+      <workItem from="1758593854502" duration="127000" />
+      <workItem from="1758599304497" duration="6000" />
+      <workItem from="1758791298241" duration="140000" />
+      <workItem from="1759030150756" duration="11445000" />
+      <workItem from="1759052452672" duration="832000" />
+      <workItem from="1759054548411" duration="87000" />
+      <workItem from="1759110327508" duration="9179000" />
+      <workItem from="1759193686809" duration="404000" />
+      <workItem from="1759201785816" duration="1021000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

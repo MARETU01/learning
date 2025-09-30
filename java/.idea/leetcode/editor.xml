@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/TwoSum.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/两数之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数之和.java" />
+              <option name="titleSlug" value="two-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/X的平方根.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/X的平方根.md" />
+              <option name="frontendQuestionId" value="leetcode.cn69" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/X的平方根.java" />
+              <option name="titleSlug" value="sqrtx" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/三角形的最大周长.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/三角形的最大周长.md" />
+              <option name="frontendQuestionId" value="leetcode.cn976" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/三角形的最大周长.java" />
+              <option name="titleSlug" value="largest-perimeter-triangle" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/两数之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数之和.java" />
+              <option name="titleSlug" value="two-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数相除.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/两数相除.md" />
+              <option name="frontendQuestionId" value="leetcode.cn29" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数相除.java" />
+              <option name="titleSlug" value="divide-two-integers" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/元音拼写检查器.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/元音拼写检查器.md" />
+              <option name="frontendQuestionId" value="leetcode.cn966" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/元音拼写检查器.java" />
+              <option name="titleSlug" value="vowel-spellchecker" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/全排列.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/全排列.md" />
+              <option name="frontendQuestionId" value="leetcode.cn46" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/全排列.java" />
+              <option name="titleSlug" value="permutations" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/删除排序链表中的重复元素.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/删除排序链表中的重复元素.md" />
+              <option name="frontendQuestionId" value="leetcode.cn83" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/删除排序链表中的重复元素.java" />
+              <option name="titleSlug" value="remove-duplicates-from-sorted-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/可以输入的最大单词数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/可以输入的最大单词数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1935" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/可以输入的最大单词数.java" />
+              <option name="titleSlug" value="maximum-number-of-words-you-can-type" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/合并两个有序数组.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/合并两个有序数组.md" />
+              <option name="frontendQuestionId" value="leetcode.cn88" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/合并两个有序数组.java" />
+              <option name="titleSlug" value="merge-sorted-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/四数之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/四数之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn18" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/四数之和.java" />
+              <option name="titleSlug" value="4sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/外观数列.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/外观数列.md" />
+              <option name="frontendQuestionId" value="leetcode.cn38" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/外观数列.java" />
+              <option name="titleSlug" value="count-and-say" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/多边形三角剖分的最低得分.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/多边形三角剖分的最低得分.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1039" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/多边形三角剖分的最低得分.java" />
+              <option name="titleSlug" value="minimum-score-triangulation-of-polygon" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/找到频率最高的元音和辅音.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/找到频率最高的元音和辅音.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3541" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/找到频率最高的元音和辅音.java" />
+              <option name="titleSlug" value="find-most-frequent-vowel-and-consonant" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/括号生成.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/括号生成.md" />
+              <option name="frontendQuestionId" value="leetcode.cn22" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/括号生成.java" />
+              <option name="titleSlug" value="generate-parentheses" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/搜索插入位置.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/搜索插入位置.md" />
+              <option name="frontendQuestionId" value="leetcode.cn35" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/搜索插入位置.java" />
+              <option name="titleSlug" value="search-insert-position" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/替换数组中的非互质数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/替换数组中的非互质数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2197" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/替换数组中的非互质数.java" />
+              <option name="titleSlug" value="replace-non-coprime-numbers-in-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/最大频率元素计数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/最大频率元素计数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3005" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/最大频率元素计数.java" />
+              <option name="titleSlug" value="count-elements-with-maximum-frequency" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/最接近的三数之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/最接近的三数之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn16" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/最接近的三数之和.java" />
+              <option name="titleSlug" value="3sum-closest" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/树中距离之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/树中距离之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn834" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/树中距离之和.java" />
+              <option name="titleSlug" value="sum-of-distances-in-tree" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/正则表达式匹配.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/正则表达式匹配.md" />
+              <option name="frontendQuestionId" value="leetcode.cn10" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/正则表达式匹配.java" />
+              <option name="titleSlug" value="regular-expression-matching" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/比较版本号.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/比较版本号.md" />
+              <option name="frontendQuestionId" value="leetcode.cn165" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/比较版本号.java" />
+              <option name="titleSlug" value="compare-version-numbers" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/汇总区间.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/汇总区间.md" />
+              <option name="frontendQuestionId" value="leetcode.cn228" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/汇总区间.java" />
+              <option name="titleSlug" value="summary-ranges" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/爬楼梯.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/爬楼梯.md" />
+              <option name="frontendQuestionId" value="leetcode.cn70" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/爬楼梯.java" />
+              <option name="titleSlug" value="climbing-stairs" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/相同的树.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/相同的树.md" />
+              <option name="frontendQuestionId" value="leetcode.cn100" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/相同的树.java" />
+              <option name="titleSlug" value="same-tree" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/矩阵中的幸运数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/矩阵中的幸运数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1380" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/矩阵中的幸运数.java" />
+              <option name="titleSlug" value="lucky-numbers-in-a-matrix" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/设计任务管理器.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/设计任务管理器.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3408" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/设计任务管理器.java" />
+              <option name="titleSlug" value="design-task-manager" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/设计电子表格.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/设计电子表格.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3484" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/设计电子表格.java" />
+              <option name="titleSlug" value="design-spreadsheet" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/[1]两数之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/doc/content/两数之和.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/editor/cn/两数之和.java" />
+              <option name="titleSlug" value="two-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/[2195]向数组中追加 K 个整数.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/doc/content/[2195]向数组中追加 K 个整数.md" />
+              <option name="frontendQuestionId" value="leetcode.cn2195" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/[2195]向数组中追加 K 个整数.java" />
+              <option name="titleSlug" value="append-k-integers-with-minimal-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/[3227]字符串元音游戏.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/doc/content/[3227]字符串元音游戏.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3227" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/algorithm/src/main/java/com/learning/algorithm/leetcode/leetcode/editor/cn/[3227]字符串元音游戏.java" />
+              <option name="titleSlug" value="vowels-game-in-a-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

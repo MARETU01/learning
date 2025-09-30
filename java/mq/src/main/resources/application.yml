@@ -1,0 +1,122 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: message-queue-learning
+  
+  # RabbitMQ配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    connection-timeout: 15000
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    
+    # 监听器配置
+    listener:
+      simple:
+        acknowledge-mode: manual
+        auto-startup: true
+        concurrency: 3
+        max-concurrency: 10
+        prefetch: 1
+        retry:
+          enabled: true
+          initial-interval: 1000
+          multiplier: 2
+          max-attempts: 3
+          max-interval: 10000
+  
+  # Kafka配置
+  kafka:
+    bootstrap-servers: localhost:9092
+    
+    # 生产者配置
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+      batch-size: 16384
+      linger-ms: 1
+      buffer-memory: 33554432
+      compression-type: gzip
+      enable-idempotence: true
+      
+    # 消费者配置
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: message-queue-learning-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      max-poll-records: 500
+      max-poll-interval-ms: 300000
+      session-timeout-ms: 10000
+      heartbeat-interval-ms: 3000
+      
+    # 监听器配置
+    listener:
+      concurrency: 3
+      ack-mode: manual_immediate
+      poll-timeout: 3000
+      
+    # 模板配置
+    template:
+      default-topic: simple-topic
+
+# 日志配置
+logging:
+  level:
+    com.learning.messagequeue: DEBUG
+    org.springframework.amqp: DEBUG
+    org.springframework.kafka: DEBUG
+    org.apache.kafka: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/message-queue.log
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# 应用自定义配置
+app:
+  message:
+    # 消息重试配置
+    retry:
+      max-attempts: 3
+      initial-delay: 1000
+      max-delay: 10000
+      multiplier: 2
+    
+    # 死信队列配置
+    dead-letter:
+      enabled: true
+      max-retries: 3
+    
+    # 性能配置
+    performance:
+      batch-size: 100
+      thread-pool-size: 10
+    
+    # 监控配置
+    monitoring:
+      enabled: true
+      metrics-interval: 5000

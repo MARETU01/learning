@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/algorithm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/algorithm/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/collections/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/collections/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/design-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/design-patterns/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jvm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jvm/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thread/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/thread/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

@@ -1,0 +1,45 @@
+    class Spreadsheet {
+        private final Map<String, Integer> map = new HashMap<>();
+
+        public Spreadsheet(int rows) {
+            for (int i = 0; i < rows; i++) {
+                for (char c = 'A'; c <= 'Z'; c++) {
+                    String cell = String.valueOf(c) + (i + 1);
+                    map.put(cell, 0);
+                }
+            }
+        }
+
+        public void setCell(String cell, int value) {
+            map.put(cell, value);
+        }
+
+        public void resetCell(String cell) {
+            map.put(cell, 0);
+        }
+
+        public int getValue(String formula) {
+            String[] tokens = formula.substring(1).split("\\+");
+            int result = 0;
+            for (String token : tokens) {
+                if (token.isEmpty()) continue;
+                if (map.containsKey(token)) {
+                    result += map.get(token);
+                } else {
+                    result += Integer.parseInt(token);
+                }
+            }
+            return result;
+        }
+    }
+
+/**
+ * Your Spreadsheet object will be instantiated and called as such:
+ * Spreadsheet obj = new Spreadsheet(rows);
+ * obj.setCell(cell,value);
+ * obj.resetCell(cell);
+ * int param_3 = obj.getValue(formula);
+ */
+
+//runtime:985 ms
+//memory:56 MB
