@@ -197,6 +197,61 @@
             gap: 15px;
         }
 
+        .file-list {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .file-row {
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .file-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .remove-btn {
+            border: none;
+            background: transparent;
+            color: #ff4d4f;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .remove-btn:hover:not(:disabled) {
+            background-color: rgba(255, 77, 79, 0.1);
+        }
+
+        .remove-btn:disabled {
+            color: #bbb;
+            cursor: not-allowed;
+        }
+
+        .empty-hint {
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px 0;
+            border: 1px dashed #e0e0e0;
+            border-radius: 8px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 25px;
@@ -221,23 +276,10 @@
             <div class="upload-icon">📁</div>
             <p class="upload-text">拖放文件到此处或点击浏览</p>
             <button class="browse-btn" id="browse-btn">选择文件</button>
-            <input type="file" id="file-input" name="file">
+            <input type="file" id="file-input" name="files" multiple>
         </div>
 
-        <div class="file-info" id="file-info">
-            <div class="file-name" id="file-name"></div>
-            <div class="file-size" id="file-size"></div>
-        </div>
-
-        <div class="progress-container" id="progress-container">
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
-            </div>
-            <div class="progress-text">
-                <span>上传进度</span>
-                <span id="progress-percent">0%</span>
-            </div>
-        </div>
+        <div class="file-list" id="file-list"></div>
 
         <div class="status-message" id="status-message"></div>
 
@@ -248,175 +290,179 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('file-input');
             const uploadArea = document.getElementById('upload-area');
             const browseBtn = document.getElementById('browse-btn');
-            const fileInfo = document.getElementById('file-info');
-            const fileName = document.getElementById('file-name');
-            const fileSize = document.getElementById('file-size');
-            const progressContainer = document.getElementById('progress-container');
-            const progress = document.getElementById('progress');
-            const progressPercent = document.getElementById('progress-percent');
-            const statusMessage = document.getElementById('status-message');
             const uploadBtn = document.getElementById('upload-btn');
             const continueBtn = document.getElementById('continue-btn');
+            const fileList = document.getElementById('file-list');
+            const statusMessage = document.getElementById('status-message');
 
-            let selectedFile = null;
-            let isUploading = false;
+            let filesQueue = [];
+            let uploadsInProgress = false;
+            const getFileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
 
-            // 点击浏览按钮触发文件选择
-            browseBtn.addEventListener('click', function() {
+            const createFileRow = (file, index) => {
+                const row = document.createElement('div');
+                row.className = 'file-row';
+                row.dataset.index = index;
+                row.innerHTML = `
+                    <div class="file-meta">
+                        <div class="file-label">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatFileSize(file.size)}</div>
+                        </div>
+                        <button class="remove-btn" data-index="${index}">移除</button>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-${index}"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="status-${index}">待上传</span>
+                        <span id="percent-${index}">0%</span>
+                    </div>`;
+                return row;
+            };
+
+            const refreshFileList = () => {
+                fileList.innerHTML = '';
+                filesQueue.forEach((file, idx) => fileList.appendChild(createFileRow(file, idx)));
+                uploadBtn.disabled = filesQueue.length === 0 || uploadsInProgress;
+                uploadBtn.style.display = filesQueue.length ? 'block' : 'none';
+                continueBtn.style.display = 'none';
+
+                if (filesQueue.length === 0) {
+                    fileList.innerHTML = `<div class="empty-hint">没有文件，拖放文件到此处或点击“选择文件”按钮</div>`;
+                }
+            };
+
+            const formatFileSize = (bytes) => {
+                if (!bytes) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+            };
+
+            const handleSelection = (fileListObj) => {
+                const newFiles = Array.from(fileListObj);
+                const existingKeys = new Set(filesQueue.map(getFileKey));
+                newFiles.forEach((file) => {
+                    const key = getFileKey(file);
+                    if (existingKeys.has(key)) return;
+                    filesQueue.push(file);
+                    existingKeys.add(key);
+                });
+                refreshFileList();
+                statusMessage.style.display = 'none';
+            };
+
+            browseBtn.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('click', (e) => {
+                if (e.target === browseBtn) return;
                 fileInput.click();
             });
 
-            // 点击上传区域触发文件选择
-            uploadArea.addEventListener('click', function(e) {
-                if (e.target !== browseBtn) {
-                    fileInput.click();
-                }
-            });
-
-            // 拖放功能
-            uploadArea.addEventListener('dragover', function(e) {
+            uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
             });
 
-            uploadArea.addEventListener('dragleave', function() {
-                uploadArea.classList.remove('dragover');
-            });
-
-            uploadArea.addEventListener('drop', function(e) {
+            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+            uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
-
-                if (e.dataTransfer.files.length) {
-                    handleFileSelection(e.dataTransfer.files[0]);
-                }
+                if (e.dataTransfer.files.length) handleSelection(e.dataTransfer.files);
             });
 
-            // 文件选择处理
-            fileInput.addEventListener('change', function() {
-                if (fileInput.files.length) {
-                    handleFileSelection(fileInput.files[0]);
-                }
+            fileInput.addEventListener('change', () => {
+                if (!fileInput.files.length) return;
+                handleSelection(fileInput.files);
+                fileInput.value = '';
             });
 
-            // 处理选择的文件
-            function handleFileSelection(file) {
-                selectedFile = file;
+            const setStatus = (index, text, type = '') => {
+                const statusEl = document.getElementById(`status-${index}`);
+                if (!statusEl) return;
+                statusEl.textContent = text;
+                statusEl.className = type;
+            };
 
-                // 显示文件信息
-                fileName.textContent = file.name;
-                fileSize.textContent = formatFileSize(file.size);
-                fileInfo.style.display = 'block';
+            const setProgress = (index, percent) => {
+                const bar = document.getElementById(`progress-${index}`);
+                const percentEl = document.getElementById(`percent-${index}`);
+                if (bar) bar.style.width = `${percent}%`;
+                if (percentEl) percentEl.textContent = `${percent}%`;
+            };
 
-                // 显示上传按钮，隐藏继续上传按钮
-                uploadBtn.disabled = false;
-                uploadBtn.style.display = 'block';
-                continueBtn.style.display = 'none';
-
-                // 重置进度和状态
-                progress.style.width = '0%';
-                progressPercent.textContent = '0%';
-                progressContainer.style.display = 'none';
-                statusMessage.style.display = 'none';
-            }
-
-            // 格式化文件大小
-            function formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-
-            // 上传按钮点击事件
-            uploadBtn.addEventListener('click', function() {
-                if (!selectedFile || isUploading) return;
-
-                // 禁用上传按钮，显示上传中状态
-                isUploading = true;
+            const uploadFiles = () => {
+                uploadsInProgress = true;
                 uploadBtn.disabled = true;
                 uploadBtn.textContent = '上传中...';
 
-                // 显示进度条
-                progressContainer.style.display = 'block';
-                statusMessage.style.display = 'none';
-
-                // 创建FormData对象
                 const formData = new FormData();
-                formData.append('file', selectedFile);
+                filesQueue.forEach((file) => formData.append('files', file));
 
-                // 创建XMLHttpRequest对象
                 const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/upload');
 
-                // 监听上传进度
-                xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        const percentComplete = (e.loaded / e.total) * 100;
-                        progress.style.width = percentComplete + '%';
-                        progressPercent.textContent = Math.round(percentComplete) + '%';
-                    }
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (!e.lengthComputable) return;
+                    const totalPercent = Math.round((e.loaded / e.total) * 100);
+                    const perFilePercent = Math.round(totalPercent / filesQueue.length);
+                    filesQueue.forEach((_, idx) => setProgress(idx, perFilePercent));
                 });
 
-                // 监听上传完成
-                xhr.addEventListener('load', function() {
-                    isUploading = false;
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState !== XMLHttpRequest.DONE) return;
+                    uploadsInProgress = false;
+                    uploadBtn.textContent = '开始上传';
 
                     if (xhr.status === 200) {
-                        showStatus('文件上传成功！', 'success');
-                        uploadBtn.style.display = 'none';
+                        const { results } = JSON.parse(xhr.responseText);
+                        results.forEach((result, idx) => {
+                            setProgress(idx, 100);
+                            setStatus(idx, result.message, result.status);
+                        });
+                        showStatus('所有文件上传完成', 'success');
                         continueBtn.style.display = 'block';
+                        uploadBtn.style.display = 'none';
                     } else {
-                        showStatus('上传失败: ' + xhr.responseText, 'error');
+                        showStatus('上传失败，请重试', 'error');
                         uploadBtn.disabled = false;
-                        uploadBtn.textContent = '重新上传';
                     }
-                });
+                };
 
-                // 监听上传错误
-                xhr.addEventListener('error', function() {
-                    isUploading = false;
-                    showStatus('上传过程中发生错误，请重试', 'error');
-                    uploadBtn.disabled = false;
-                    uploadBtn.textContent = '重新上传';
-                });
-
-                // 发送请求
-                xhr.open('POST', '/upload');
                 xhr.send(formData);
-            });
+            };
 
-            // 继续上传按钮点击事件
-            continueBtn.addEventListener('click', function() {
-                resetUI();
-            });
-
-            // 显示状态信息
-            function showStatus(message, type) {
+            const showStatus = (message, type) => {
                 statusMessage.textContent = message;
-                statusMessage.className = 'status-message ' + type;
+                statusMessage.className = `status-message ${type}`;
                 statusMessage.style.display = 'block';
-            }
+            };
 
-            // 重置UI
-            function resetUI() {
-                selectedFile = null;
-                isUploading = false;
-                fileInfo.style.display = 'none';
-                progressContainer.style.display = 'none';
-                statusMessage.style.display = 'none';
+            uploadBtn.addEventListener('click', uploadFiles);
+            continueBtn.addEventListener('click', () => {
+                filesQueue = [];
                 uploadBtn.style.display = 'none';
                 continueBtn.style.display = 'none';
                 fileInput.value = '';
-                uploadBtn.textContent = '开始上传';
-                uploadBtn.disabled = true;
-            }
+                statusMessage.style.display = 'none';
+                fileList.innerHTML = '';
+                refreshFileList();
+            });
+
+            fileList.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('remove-btn')) return;
+                const index = Number(e.target.dataset.index);
+                if (Number.isNaN(index)) return;
+                filesQueue.splice(index, 1);
+                refreshFileList();
+            });
+
+            refreshFileList();
         });
     </script>
 </body>
