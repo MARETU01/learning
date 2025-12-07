@@ -120,3 +120,4 @@ try:
 finally:
     # 确保浏览器正确关闭
     if 'driver' in locals():
+        driver.quit()
