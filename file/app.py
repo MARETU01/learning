@@ -8,6 +8,11 @@ import unicodedata
 import uuid
 from urllib.parse import unquote
 
+# +++ new imports for downloads/listing +++
+from datetime import datetime
+from pathlib import Path
+from flask import abort, send_from_directory
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 30 * 1024 * 1024 * 1024
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
@@ -116,9 +121,59 @@ def resolve_name_conflict(folder: str, filename: str) -> str:
         candidate = f"{base}_{suffix}{ext}"
     return candidate
 
+
+def _safe_upload_relpath(filename: str) -> str | None:
+    """Validate and normalize a relpath inside UPLOAD_FOLDER.
+
+    Allows nested paths (Flask <path:...>), but blocks absolute paths and traversal.
+    Returns a POSIX-style relpath (with /) or None if invalid.
+    """
+    if not filename:
+        return None
+
+    # Decode any percent-encoding (double-encoding attacks still resolve here)
+    try:
+        filename = unquote(filename)
+    except Exception:
+        pass
+
+    # Normalize separators early
+    filename = filename.replace('\\', '/')
+
+    # Fast rejects
+    if filename.startswith('/'):
+        return None
+
+    p = Path(filename)
+    if p.is_absolute():
+        return None
+
+    # Drop '.' segments, reject '..'
+    parts: list[str] = []
+    for part in p.parts:
+        if part in {'', '.'}:
+            continue
+        if part == '..':
+            return None
+        parts.append(part)
+
+    rel = '/'.join(parts)
+    if not rel:
+        return None
+
+    # Final realpath prefix check
+    root = os.path.realpath(app.config['UPLOAD_FOLDER'])
+    full = os.path.realpath(os.path.join(root, rel))
+    if not (full == root or full.startswith(root + os.sep)):
+        return None
+
+    return rel
+
+
 @app.route('/')
 def upload_form():
     return render_template('submit.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -162,6 +217,47 @@ def upload_file():
 
     status_code = 200 if any(item['status'] == 'success' for item in results) else 400
     return jsonify({'results': results}), status_code
+
+
+@app.route('/uploads')
+def list_uploads():
+    """List files currently in uploads folder."""
+    folder = app.config['UPLOAD_FOLDER']
+    entries = []
+
+    try:
+        with os.scandir(folder) as it:
+            for e in it:
+                if not e.is_file():
+                    continue
+                st = e.stat()
+                entries.append({
+                    'name': e.name,
+                    'size': st.st_size,
+                    'mtime': datetime.fromtimestamp(st.st_mtime),
+                })
+    except FileNotFoundError:
+        os.makedirs(folder, exist_ok=True)
+
+    entries.sort(key=lambda x: x['mtime'], reverse=True)
+    return render_template('uploads.html', files=entries)
+
+
+@app.route('/uploads/<path:filename>')
+def download_upload(filename: str):
+    """Download a file from uploads folder (safe against traversal)."""
+    rel = _safe_upload_relpath(filename)
+    if not rel:
+        abort(404)
+
+    # If you don't want subfolders, enforce no '/'
+    # if '/' in rel:
+    #     abort(404)
+
+    directory = app.config['UPLOAD_FOLDER']
+    # as_attachment=True forces download.
+    return send_from_directory(directory, rel, as_attachment=True, download_name=os.path.basename(rel))
+
 
 if __name__ == '__main__':
     app.run(host='::', port=80, debug=True)

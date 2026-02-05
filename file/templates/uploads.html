@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>已上传文件</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 900px;
+      padding: 28px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0; color: #333; font-weight: 600; font-size: 22px; }
+    a.btn {
+      display: inline-block;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+    thead th {
+      text-align: left;
+      padding: 12px;
+      background: #f2f4ff;
+      color: #333;
+      font-size: 14px;
+    }
+    tbody td {
+      padding: 12px;
+      border-top: 1px solid #eee;
+      vertical-align: middle;
+      font-size: 14px;
+      color: #333;
+      word-break: break-all;
+    }
+    .muted { color: #666; }
+    .empty {
+      padding: 18px;
+      border: 1px dashed #e0e0e0;
+      border-radius: 10px;
+      text-align: center;
+      color: #888;
+    }
+    .download {
+      white-space: nowrap;
+    }
+    .download a {
+      color: #2575fc;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .download a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <h1>已上传文件</h1>
+      <a class="btn" href="/">返回上传</a>
+    </div>
+
+    {% if files and files|length %}
+      <table>
+        <thead>
+          <tr>
+            <th>文件名</th>
+            <th>大小</th>
+            <th>修改时间</th>
+            <th class="download">下载</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in files %}
+          <tr>
+            <td>{{ f.name }}</td>
+            <td class="muted">{{ f.size }} bytes</td>
+            <td class="muted">{{ f.mtime.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td class="download"><a href="/uploads/{{ f.name|urlencode }}">下载</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty">uploads 目录里还没有文件，先去上传几个吧。</div>
+    {% endif %}
+  </div>
+</body>
+</html>
+
