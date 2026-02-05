@@ -1,0 +1,138 @@
+# Global OS/editor ignores
+# ========================
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Editors/IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+
+# Logs
+*.log
+logs/
+
+# Archive/temp
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
+
+# Python
+# ======
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.installed.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# PyTest/coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Django/Flask (general)
+instance/
+*.db
+*.sqlite3
+
+# Node.js (server/ folder)
+# ========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+server/dist/
+server/.next/
+server/out/
+
+# Java & Maven/Gradle
+# ====================
+**/target/
+**/.project
+**/.classpath
+**/.settings/
+**/.factorypath
+**/.gradle/
+**/build/
+
+# IntelliJ IDEA
+*.iml
+
+# C/C++
+# ======
+*.o
+*.obj
+*.dll
+*.lib
+*.so
+*.a
+*.out
+*.exe
+
+# Selenium/Drivers
+web_crawler_learning/chromedriver-win64/
+
+# Project-specific
+# =================
+# Python cache in hotel app
+hotel/hotel/__pycache__/
+
+# Compiled artifacts & images generated during crawling/tests
+web_crawler/**/__pycache__/
+web_crawler_learning/**/__pycache__/
+
+# Static generated files (keep originals in versioned static/ but ignore transient)
+server/static/leaderboard.txt
+
+# Misc temporary files
+*.bak
+*.old
+*.orig
+*.rej
+
+# Coverage/Reports
+coverage/
+reports/
+
+# Security: common secret files
+*.secret
+*.key
+*.pem
+*.crt
+
+# Local config
+*.local
+*.env.local
+.env.*.local
+
+# macOS resource forks (if any cross-platform)
+._*
+
