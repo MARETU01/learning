@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+// package 内容格式推荐为 trpc.{app}.{server}，以 trpc 为固定前缀，标识这是一个 trpc 服务协议，app 为你的应用名，server 为你的服务进程名
+package trpc.test.helloworld;
+
+// 注意：这里 go_package 指定的是协议生成文件 pb.go 在 git 上的地址，不要和上面的服务的 git 仓库地址一样
+option go_package="git.woa.com/trpcprotocol/test/helloworld";
+
+// 定义服务接口
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// 请求参数
+message HelloRequest {
+  string msg = 1;
+}
+
+// 响应参数
+message HelloReply {
+  string msg = 1;
+}

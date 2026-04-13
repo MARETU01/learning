@@ -1,0 +1,13 @@
+global:                              # 全局配置
+  namespace: Development             # 环境类型，分正式 Production 和非正式 Development 两种类型
+server:                              # 服务端配置
+  app: test                          # 业务的应用名
+  server: helloworld                 # 进程服务名
+  service:                           # 业务服务提供的 service，可以有多个
+    - name: trpc.test.helloworld.Greeter           # service 的路由名称
+      ip: 127.0.0.1                  # 服务监听 ip 地址 可使用占位符 ${ip}，ip 和 nic 二选一，优先 ip
+      port: 8000                     # 服务监听端口 可使用占位符 ${port}
+      network: tcp                   # 网络监听类型 tcp udp
+      protocol: trpc                 # 应用层协议 trpc http
+      transport: tnet                 # 要求框架版本 >= 0.11.0，为 tcp trpc 启用 tnet，其他协议可以自行验证
+      timeout: 1000                  # 请求最长处理时间 单位 毫秒
