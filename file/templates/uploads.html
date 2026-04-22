@@ -8,111 +8,421 @@
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body {
       background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      min-height: 100vh; margin: 0; padding: 20px;
+      display: flex; justify-content: center; align-items: flex-start;
     }
     .container {
-      background: white;
-      border-radius: 12px;
+      background: white; border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 900px;
-      padding: 28px;
+      width: 100%; max-width: 1000px; padding: 28px;
     }
+
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 12px; margin-bottom: 16px;
+      flex-wrap: wrap;
     }
     h1 { margin: 0; color: #333; font-weight: 600; font-size: 22px; }
+    .topbar-actions { display: flex; gap: 10px; }
     a.btn {
       display: inline-block;
       background: linear-gradient(to right, #6a11cb, #2575fc);
-      color: white;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 600;
-      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+      color: white; text-decoration: none;
+      padding: 10px 16px; border-radius: 999px;
+      font-weight: 600; box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+      transition: transform 0.2s;
     }
+    a.btn:hover { transform: translateY(-1px); }
+
+    /* Disk usage card */
+    .disk-card {
+      background: linear-gradient(135deg, #f5f7ff 0%, #e8ecff 100%);
+      border-radius: 10px; padding: 16px 20px;
+      margin-bottom: 16px; display: flex;
+      justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .disk-card .disk-info {
+      display: flex; gap: 24px; flex-wrap: wrap;
+    }
+    .disk-card .disk-item {
+      text-align: center; min-width: 100px;
+    }
+    .disk-card .disk-item .label {
+      font-size: 12px; color: #666; margin-bottom: 4px;
+    }
+    .disk-card .disk-item .value {
+      font-size: 16px; font-weight: 600; color: #333;
+    }
+    .disk-bar-container {
+      flex: 1; min-width: 200px; max-width: 400px;
+    }
+    .disk-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: #666; margin-bottom: 6px;
+    }
+    .disk-bar {
+      height: 16px; background: #e0e0e0; border-radius: 8px;
+      overflow: hidden; position: relative;
+    }
+    .disk-bar-fill {
+      height: 100%; border-radius: 8px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      transition: width 0.5s ease;
+    }
+    .disk-bar-fill.warning { background: linear-gradient(to right, #ff9800, #f44336); }
+
+    /* Search bar */
+    .search-bar {
+      display: flex; gap: 12px; margin-bottom: 16px;
+      align-items: center; flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1; min-width: 200px;
+      padding: 10px 16px; border: 2px solid #ddd;
+      border-radius: 50px; font-size: 14px;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+    .search-input:focus { border-color: #6a11cb; }
+    .sort-select {
+      padding: 10px 16px; border: 2px solid #ddd;
+      border-radius: 50px; font-size: 14px;
+      background: white; outline: none;
+      cursor: pointer;
+    }
+    .sort-select:focus { border-color: #6a11cb; }
+    .file-count {
+      font-size: 14px; color: #666; white-space: nowrap;
+    }
+
+    /* Table */
     table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 10px;
+      width: 100%; border-collapse: collapse;
+      border-radius: 10px; overflow: hidden;
     }
     thead th {
-      text-align: left;
-      padding: 12px;
-      background: #f2f4ff;
-      color: #333;
-      font-size: 14px;
+      text-align: left; padding: 12px;
+      background: #f2f4ff; color: #333; font-size: 14px;
+      cursor: pointer; user-select: none;
+      position: relative;
     }
+    thead th:hover { background: #e6e9ff; }
+    thead th .sort-arrow { font-size: 10px; color: #999; }
+    thead th .sort-arrow.active { color: #6a11cb; }
     tbody td {
-      padding: 12px;
-      border-top: 1px solid #eee;
-      vertical-align: middle;
-      font-size: 14px;
-      color: #333;
-      word-break: break-all;
+      padding: 12px; border-top: 1px solid #eee;
+      vertical-align: middle; font-size: 14px;
+      color: #333; word-break: break-all;
     }
+    tbody tr { transition: background 0.2s; }
+    tbody tr:hover { background: #f8f9ff; }
+
     .muted { color: #666; }
-    .empty {
-      padding: 18px;
-      border: 1px dashed #e0e0e0;
-      border-radius: 10px;
-      text-align: center;
-      color: #888;
-    }
-    .download {
+    .filename-cell { font-weight: 600; max-width: 300px; }
+    .size-cell { white-space: nowrap; }
+
+    .download a {
+      color: #2575fc; text-decoration: none; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px;
       white-space: nowrap;
     }
-    .download a {
-      color: #2575fc;
-      text-decoration: none;
+    .download a:hover { text-decoration: underline; }
+
+    .delete-btn {
+      background: transparent; border: 1px solid #f44336;
+      color: #f44336; padding: 6px 12px;
+      border-radius: 6px; font-size: 13px;
+      cursor: pointer; transition: all 0.2s;
       font-weight: 600;
     }
-    .download a:hover { text-decoration: underline; }
+    .delete-btn:hover {
+      background: #f44336; color: white;
+    }
+    .delete-btn.confirming {
+      background: #f44336; color: white;
+      animation: pulse 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .empty {
+      padding: 18px; border: 1px dashed #e0e0e0;
+      border-radius: 10px; text-align: center; color: #888;
+    }
+
+    .pagination {
+      display: flex; justify-content: center;
+      gap: 8px; margin-top: 16px;
+    }
+    .pagination button {
+      padding: 8px 14px; border: 1px solid #ddd;
+      border-radius: 6px; background: white;
+      cursor: pointer; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .pagination button:hover { background: #f2f4ff; border-color: #6a11cb; }
+    .pagination button.active {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white; border-color: transparent;
+    }
+    .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    @media (max-width: 768px) {
+      .container { padding: 16px; }
+      .disk-card { flex-direction: column; }
+      .disk-bar-container { max-width: 100%; }
+      table { font-size: 13px; }
+      thead th, tbody td { padding: 8px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .search-bar { flex-direction: column; }
+      .filename-cell { max-width: 150px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="topbar">
-      <h1>已上传文件</h1>
-      <a class="btn" href="/">返回上传</a>
+      <h1>📦 已上传文件</h1>
+      <div class="topbar-actions">
+        <a class="btn" href="/">⬆ 上传文件</a>
+      </div>
+    </div>
+
+    <!-- Disk Usage -->
+    <div class="disk-card">
+      <div class="disk-info">
+        <div class="disk-item">
+          <div class="label">上传文件总大小</div>
+          <div class="value">{{ total_size_display }}</div>
+        </div>
+        <div class="disk-item">
+          <div class="label">磁盘可用空间</div>
+          <div class="value">{{ disk_free_display }}</div>
+        </div>
+        <div class="disk-item">
+          <div class="label">磁盘已用</div>
+          <div class="value">{{ disk_used_display }}</div>
+        </div>
+      </div>
+      <div class="disk-bar-container">
+        <div class="disk-bar-label">
+          <span>磁盘使用率</span>
+          <span>{{ (disk_used / disk_total * 100) | round(1) }}%</span>
+        </div>
+        <div class="disk-bar">
+          {% set disk_pct = (disk_used / disk_total * 100) | round(1) %}
+          <div class="disk-bar-fill {% if disk_pct > 85 %}warning{% endif %}"
+               style="width: {{ disk_pct }}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search & Sort -->
+    <div class="search-bar">
+      <input type="text" class="search-input" id="search-input" placeholder="🔍 搜索文件名..." />
+      <select class="sort-select" id="sort-select">
+        <option value="mtime_desc">最近修改 ↓</option>
+        <option value="mtime_asc">最近修改 ↑</option>
+        <option value="size_desc">文件大小 ↓</option>
+        <option value="size_asc">文件大小 ↑</option>
+        <option value="name_asc">文件名 A→Z</option>
+        <option value="name_desc">文件名 Z→A</option>
+      </select>
+      <span class="file-count" id="file-count">{{ files | length }} 个文件</span>
     </div>
 
     {% if files and files|length %}
-      <table>
+      <table id="files-table">
         <thead>
           <tr>
-            <th>文件名</th>
+            <th class="filename-cell">文件名</th>
             <th>大小</th>
             <th>修改时间</th>
             <th class="download">下载</th>
+            <th>操作</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="files-body">
           {% for f in files %}
-          <tr>
-            <td>{{ f.name }}</td>
-            <td class="muted">{{ f.size }} bytes</td>
+          <tr data-name="{{ f.name }}" data-size="{{ f.size }}" data-mtime="{{ f.mtime.strftime('%Y-%m-%d %H:%M:%S') }}">
+            <td class="filename-cell">{{ f.name }}</td>
+            <td class="muted size-cell">{{ f.size_display }}</td>
             <td class="muted">{{ f.mtime.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            <td class="download"><a href="/uploads/{{ f.name|urlencode }}">下载</a></td>
+            <td class="download"><a href="/uploads/{{ f.name | urlencode }}">⬇ 下载</a></td>
+            <td><button class="delete-btn" data-filename="{{ f.name }}" onclick="handleDelete(this)">删除</button></td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+
+      <div class="pagination" id="pagination"></div>
     {% else %}
-      <div class="empty">uploads 目录里还没有文件，先去上传几个吧。</div>
+      <div class="empty">uploads 目录里还没有文件，先去<a href="/" style="color:#2575fc;font-weight:600;">上传</a>几个吧。</div>
     {% endif %}
   </div>
+
+  <script>
+    // ==================== Search & Sort ====================
+    const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+    const filesBody = document.getElementById('files-body');
+    const fileCountEl = document.getElementById('file-count');
+    const paginationEl = document.getElementById('pagination');
+
+    const PAGE_SIZE = 20;
+    let currentPage = 1;
+    let filteredRows = [];
+
+    function getAllRows() {
+      if (!filesBody) return [];
+      return Array.from(filesBody.querySelectorAll('tr'));
+    }
+
+    function applyFilters() {
+      const keyword = (searchInput ? searchInput.value : '').toLowerCase().trim();
+      const sortBy = sortSelect ? sortSelect.value : 'mtime_desc';
+
+      let rows = getAllRows();
+
+      // Search filter
+      if (keyword) {
+        rows = rows.filter(row => {
+          const name = (row.dataset.name || '').toLowerCase();
+          return name.includes(keyword);
+        });
+      }
+
+      // Sort
+      rows.sort((a, b) => {
+        switch (sortBy) {
+          case 'name_asc': return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+          case 'name_desc': return (b.dataset.name || '').localeCompare(a.dataset.name || '');
+          case 'size_asc': return Number(a.dataset.size) - Number(b.dataset.size);
+          case 'size_desc': return Number(b.dataset.size) - Number(a.dataset.size);
+          case 'mtime_asc': return (a.dataset.mtime || '').localeCompare(b.dataset.mtime || '');
+          case 'mtime_desc': return (b.dataset.mtime || '').localeCompare(a.dataset.mtime || '');
+          default: return 0;
+        }
+      });
+
+      filteredRows = rows;
+      currentPage = 1;
+      renderPage();
+    }
+
+    function renderPage() {
+      if (!filesBody) return;
+
+      const totalFiltered = filteredRows.length;
+      if (fileCountEl) fileCountEl.textContent = `${totalFiltered} 个文件`;
+
+      const totalPages = Math.max(1, Math.ceil(totalFiltered / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageRows = filteredRows.slice(start, start + PAGE_SIZE);
+
+      // Clear and re-add
+      filesBody.innerHTML = '';
+      pageRows.forEach(row => filesBody.appendChild(row));
+
+      // Hide rows not on this page
+      // (already only showing pageRows, others removed from DOM temporarily)
+
+      // Pagination
+      if (paginationEl) {
+        paginationEl.innerHTML = '';
+        if (totalPages > 1) {
+          // Prev
+          const prevBtn = document.createElement('button');
+          prevBtn.textContent = '上一页';
+          prevBtn.disabled = currentPage === 1;
+          prevBtn.onclick = () => { currentPage--; renderPage(); };
+          paginationEl.appendChild(prevBtn);
+
+          // Page numbers (show max 7)
+          const maxButtons = 7;
+          let startPage = Math.max(1, currentPage - 3);
+          let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+          if (endPage - startPage < maxButtons - 1) startPage = Math.max(1, endPage - maxButtons + 1);
+
+          for (let p = startPage; p <= endPage; p++) {
+            const btn = document.createElement('button');
+            btn.textContent = p;
+            btn.className = p === currentPage ? 'active' : '';
+            btn.onclick = () => { currentPage = p; renderPage(); };
+            paginationEl.appendChild(btn);
+          }
+
+          // Next
+          const nextBtn = document.createElement('button');
+          nextBtn.textContent = '下一页';
+          nextBtn.disabled = currentPage === totalPages;
+          nextBtn.onclick = () => { currentPage++; renderPage(); };
+          paginationEl.appendChild(nextBtn);
+        }
+      }
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+    if (sortSelect) sortSelect.addEventListener('change', applyFilters);
+
+    // Initial render
+    applyFilters();
+
+    // ==================== Delete ====================
+    function handleDelete(btn) {
+      const filename = btn.dataset.filename;
+
+      if (!btn.classList.contains('confirming')) {
+        // First click: ask for confirmation
+        btn.classList.add('confirming');
+        btn.textContent = '确认删除?';
+        // Auto-reset after 3 seconds
+        setTimeout(() => {
+          btn.classList.remove('confirming');
+          btn.textContent = '删除';
+        }, 3000);
+        return;
+      }
+
+      // Second click: confirmed
+      btn.disabled = true;
+      btn.textContent = '删除中...';
+
+      fetch(`/delete/${encodeURIComponent(filename)}`, { method: 'POST' })
+        .then(res => {
+          if (res.ok) {
+            // Remove row from table
+            const row = btn.closest('tr');
+            if (row) {
+              row.style.transition = 'opacity 0.3s';
+              row.style.opacity = '0';
+              setTimeout(() => {
+                row.remove();
+                applyFilters();
+              }, 300);
+            }
+          } else {
+            return res.json().then(data => {
+              alert(`删除失败: ${data.error || '未知错误'}`);
+              btn.classList.remove('confirming');
+              btn.textContent = '删除';
+              btn.disabled = false;
+            });
+          }
+        })
+        .catch(err => {
+          alert(`网络错误: ${err.message}`);
+          btn.classList.remove('confirming');
+          btn.textContent = '删除';
+          btn.disabled = false;
+        });
+    }
+  </script>
 </body>
 </html>
-

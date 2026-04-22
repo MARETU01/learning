@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文件上传 - 带进度条</title>
+    <title>文件上传 - 分块上传</title>
     <style>
         * {
             margin: 0;
@@ -26,22 +26,27 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             padding: 40px;
             text-align: center;
         }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+        h1 { color: #333; margin-bottom: 10px; font-weight: 600; }
+        .subtitle { color: #666; margin-bottom: 30px; font-size: 16px; }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 16px;
+        .nav-links {
+            margin: 10px 0 18px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
+        .nav-links a {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #6a11cb; }
 
         .upload-area {
             border: 2px dashed #6a11cb;
@@ -52,229 +57,172 @@
             cursor: pointer;
             position: relative;
         }
-
         .upload-area:hover, .upload-area.dragover {
             background-color: rgba(106, 17, 203, 0.05);
             border-color: #2575fc;
         }
-
-        .upload-icon {
-            font-size: 48px;
-            color: #6a11cb;
-            margin-bottom: 15px;
-        }
-
-        .upload-text {
-            color: #666;
-            margin-bottom: 20px;
-        }
+        .upload-icon { font-size: 48px; color: #6a11cb; margin-bottom: 15px; }
+        .upload-text { color: #666; margin-bottom: 20px; }
 
         .browse-btn {
             background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
+            color: white; border: none;
+            padding: 12px 24px; border-radius: 50px;
+            font-size: 16px; cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
         }
-
         .browse-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
         }
 
-        #file-input {
-            display: none;
-        }
+        #file-input { display: none; }
 
-        .file-info {
-            text-align: left;
+        .file-list { text-align: left; margin-bottom: 20px; }
+
+        .file-row {
+            margin-bottom: 12px;
             background-color: #f8f9fa;
-            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
+            padding: 12px;
+            transition: background 0.2s;
         }
+        .file-row.uploading { background-color: #e8f4fd; }
+        .file-row.success { background-color: #d4edda; }
+        .file-row.error { background-color: #f8d7da; }
 
+        .file-meta {
+            display: flex; justify-content: space-between;
+            align-items: center; gap: 12px; margin-bottom: 6px;
+        }
+        .file-label { display: flex; flex-direction: column; flex: 1; min-width: 0; }
         .file-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
+            font-weight: 600; color: #333;
+            white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis;
         }
+        .file-size { color: #666; font-size: 14px; }
 
-        .file-size {
-            color: #666;
-            font-size: 14px;
+        .file-status {
+            font-size: 13px; color: #888;
+            display: flex; gap: 10px; margin-top: 4px;
         }
-
-        .progress-container {
-            margin-bottom: 25px;
-            display: none;
-        }
+        .file-status .speed { color: #2575fc; font-weight: 600; }
+        .file-status .eta { color: #666; }
+        .file-status .chunks { color: #888; font-size: 12px; }
 
         .progress-bar {
-            height: 12px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 10px;
+            height: 10px; background-color: #e9ecef;
+            border-radius: 10px; overflow: hidden; margin-top: 6px;
         }
-
         .progress {
             height: 100%;
             background: linear-gradient(to right, #6a11cb, #2575fc);
-            width: 0%;
-            transition: width 0.3s ease;
+            width: 0%; transition: width 0.3s ease;
         }
-
         .progress-text {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .status-message {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .upload-btn, .continue-btn {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
-            width: 100%;
-            font-weight: 600;
-            display: none;
-        }
-
-        .upload-btn:hover, .continue-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
-        }
-
-        .upload-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .continue-btn {
-            background: linear-gradient(to right, #00b09b, #96c93d);
-            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
-        }
-
-        .continue-btn:hover {
-            box-shadow: 0 6px 20px rgba(0, 176, 155, 0.4);
-        }
-
-        .button-container {
-            display: flex;
-            gap: 15px;
-        }
-
-        .file-list {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .file-row {
-            margin-bottom: 15px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 12px;
-        }
-
-        .file-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            gap: 12px;
-        }
-
-        .file-label {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+            display: flex; justify-content: space-between;
+            color: #666; font-size: 13px; margin-top: 4px;
         }
 
         .remove-btn {
-            border: none;
-            background: transparent;
-            color: #ff4d4f;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: background 0.2s ease;
+            border: none; background: transparent;
+            color: #ff4d4f; font-weight: 600;
+            cursor: pointer; padding: 4px 8px;
+            border-radius: 6px; transition: background 0.2s;
+            white-space: nowrap;
         }
-
-        .remove-btn:hover:not(:disabled) {
-            background-color: rgba(255, 77, 79, 0.1);
-        }
-
-        .remove-btn:disabled {
-            color: #bbb;
-            cursor: not-allowed;
-        }
+        .remove-btn:hover:not(:disabled) { background-color: rgba(255, 77, 79, 0.1); }
+        .remove-btn:disabled { color: #bbb; cursor: not-allowed; }
 
         .empty-hint {
-            color: #999;
-            font-size: 14px;
-            text-align: center;
-            padding: 20px 0;
-            border: 1px dashed #e0e0e0;
-            border-radius: 8px;
+            color: #999; font-size: 14px;
+            text-align: center; padding: 20px 0;
+            border: 1px dashed #e0e0e0; border-radius: 8px;
         }
 
+        .button-container {
+            display: flex; gap: 12px; margin-bottom: 16px;
+        }
+
+        .upload-btn, .pause-btn, .resume-btn, .cancel-btn, .continue-btn {
+            border: none; padding: 14px 20px;
+            border-radius: 50px; font-size: 15px;
+            cursor: pointer; transition: all 0.3s ease;
+            font-weight: 600; flex: 1;
+        }
+
+        .upload-btn {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+        .upload-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.4);
+        }
+        .upload-btn:disabled {
+            background: #ccc; cursor: not-allowed;
+            transform: none; box-shadow: none;
+        }
+
+        .pause-btn {
+            background: #ff9800; color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        .pause-btn:hover { transform: translateY(-2px); }
+
+        .resume-btn {
+            background: #4caf50; color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        .resume-btn:hover { transform: translateY(-2px); }
+
+        .cancel-btn {
+            background: #f44336; color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+        .cancel-btn:hover { transform: translateY(-2px); }
+
+        .continue-btn {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+        }
+        .continue-btn:hover { transform: translateY(-2px); }
+
+        .status-message {
+            padding: 12px; border-radius: 8px;
+            margin-bottom: 16px; display: none;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .stats-bar {
+            display: flex; justify-content: center;
+            gap: 20px; padding: 10px 0;
+            font-size: 13px; color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 16px;
+        }
+        .stats-bar span { font-weight: 600; }
+
         @media (max-width: 600px) {
-            .container {
-                padding: 25px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .button-container {
-                flex-direction: column;
-            }
+            .container { padding: 25px; }
+            h1 { font-size: 24px; }
+            .button-container { flex-direction: column; }
+            .stats-bar { flex-direction: column; gap: 8px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>文件上传</h1>
-        <p class="subtitle">支持大文件上传，实时显示上传进度</p>
+        <p class="subtitle">支持大文件分块上传，可暂停/恢复，断点续传</p>
 
-        <!-- quick entry to uploads listing -->
-        <div style="margin: 10px 0 18px;">
-            <a href="/uploads" style="color:#2575fc; text-decoration:none; font-weight:600;">查看 / 下载已上传文件</a>
+        <div class="nav-links">
+            <a href="/uploads">📦 查看 / 下载已上传文件</a>
         </div>
 
         <div class="upload-area" id="upload-area">
@@ -288,187 +236,447 @@
 
         <div class="status-message" id="status-message"></div>
 
-        <div class="button-container">
-            <button class="upload-btn" id="upload-btn" disabled>开始上传</button>
-            <button class="continue-btn" id="continue-btn" style="display: none;">继续上传</button>
+        <div class="button-container" id="button-container">
+            <button class="upload-btn" id="upload-btn" disabled style="display:none;">开始上传</button>
+        </div>
+
+        <div class="stats-bar" id="stats-bar" style="display:none;">
+            <div>总速度: <span id="total-speed">0 B/s</span></div>
+            <div>已完成: <span id="completed-count">0</span> / <span id="total-count">0</span> 个文件</div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const fileInput = document.getElementById('file-input');
-            const uploadArea = document.getElementById('upload-area');
-            const browseBtn = document.getElementById('browse-btn');
-            const uploadBtn = document.getElementById('upload-btn');
-            const continueBtn = document.getElementById('continue-btn');
-            const fileList = document.getElementById('file-list');
-            const statusMessage = document.getElementById('status-message');
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('file-input');
+        const uploadArea = document.getElementById('upload-area');
+        const browseBtn = document.getElementById('browse-btn');
+        const buttonContainer = document.getElementById('button-container');
+        const fileListEl = document.getElementById('file-list');
+        const statusMessage = document.getElementById('status-message');
+        const statsBar = document.getElementById('stats-bar');
+        const totalSpeedEl = document.getElementById('total-speed');
+        const completedCountEl = document.getElementById('completed-count');
+        const totalCountEl = document.getElementById('total-count');
 
-            let filesQueue = [];
-            let uploadsInProgress = false;
-            const getFileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
+        const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB, must match server config
+        const MAX_CONCURRENT_UPLOADS = 3; // parallel chunk uploads per file
 
-            const createFileRow = (file, index) => {
-                const row = document.createElement('div');
-                row.className = 'file-row';
-                row.dataset.index = index;
-                row.innerHTML = `
-                    <div class="file-meta">
-                        <div class="file-label">
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${formatFileSize(file.size)}</div>
-                        </div>
-                        <button class="remove-btn" data-index="${index}">移除</button>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" id="progress-${index}"></div>
-                    </div>
-                    <div class="progress-text">
-                        <span id="status-${index}">待上传</span>
-                        <span id="percent-${index}">0%</span>
-                    </div>`;
-                return row;
-            };
+        let filesQueue = []; // { file, state: 'pending'|'uploading'|'paused'|'success'|'error', session, uploadController }
+        let isGlobalPaused = false;
 
-            const refreshFileList = () => {
-                fileList.innerHTML = '';
-                filesQueue.forEach((file, idx) => fileList.appendChild(createFileRow(file, idx)));
-                uploadBtn.disabled = filesQueue.length === 0 || uploadsInProgress;
-                uploadBtn.style.display = filesQueue.length ? 'block' : 'none';
-                continueBtn.style.display = 'none';
+        const getFileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
 
-                if (filesQueue.length === 0) {
-                    fileList.innerHTML = `<div class="empty-hint">没有文件，拖放文件到此处或点击“选择文件”按钮</div>`;
+        const formatSize = (bytes) => {
+            if (!bytes) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+        };
+
+        const formatSpeed = (bytesPerSec) => formatSize(bytesPerSec) + '/s';
+
+        const formatETA = (remainingBytes, bytesPerSec) => {
+            if (bytesPerSec <= 0) return '--';
+            const secs = Math.ceil(remainingBytes / bytesPerSec);
+            if (secs < 60) return `${secs}秒`;
+            if (secs < 3600) return `${Math.floor(secs/60)}分${secs%60}秒`;
+            const hrs = Math.floor(secs/3600);
+            const mins = Math.floor((secs%3600)/60);
+            return `${hrs}时${mins}分`;
+        };
+
+        // ==================== UI Rendering ====================
+        const refreshFileList = () => {
+            fileListEl.innerHTML = '';
+            filesQueue.forEach((item, idx) => fileListEl.appendChild(createFileRow(item, idx)));
+
+            const pending = filesQueue.filter(i => i.state === 'pending');
+            const uploading = filesQueue.filter(i => i.state === 'uploading');
+            const paused = filesQueue.filter(i => i.state === 'paused');
+            const done = filesQueue.filter(i => i.state === 'success');
+            const errors = filesQueue.filter(i => i.state === 'error');
+            const active = uploading.length + paused.length;
+
+            completedCountEl.textContent = done.length;
+            totalCountEl.textContent = filesQueue.length;
+            statsBar.style.display = filesQueue.length ? 'flex' : 'none';
+
+            // Button rendering
+            buttonContainer.innerHTML = '';
+
+            if (filesQueue.length === 0) {
+                fileListEl.innerHTML = '<div class="empty-hint">没有文件，拖放文件到此处或点击"选择文件"按钮</div>';
+                return;
+            }
+
+            if (active > 0) {
+                // Pause / Resume / Cancel buttons during upload
+                if (!isGlobalPaused) {
+                    const pauseBtn = document.createElement('button');
+                    pauseBtn.className = 'pause-btn';
+                    pauseBtn.textContent = '⏸ 全部暂停';
+                    pauseBtn.onclick = pauseAll;
+                    buttonContainer.appendChild(pauseBtn);
+                } else {
+                    const resumeBtn = document.createElement('button');
+                    resumeBtn.className = 'resume-btn';
+                    resumeBtn.textContent = '▶ 全部恢复';
+                    resumeBtn.onclick = resumeAll;
+                    buttonContainer.appendChild(resumeBtn);
                 }
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'cancel-btn';
+                cancelBtn.textContent = '✖ 取消全部';
+                cancelBtn.onclick = cancelAll;
+                buttonContainer.appendChild(cancelBtn);
+            } else if (pending.length > 0 || errors.length > 0) {
+                const uploadBtn = document.createElement('button');
+                uploadBtn.className = 'upload-btn';
+                uploadBtn.textContent = '开始上传';
+                uploadBtn.onclick = startAllUploads;
+                buttonContainer.appendChild(uploadBtn);
+            } else if (done.length > 0) {
+                const continueBtn = document.createElement('button');
+                continueBtn.className = 'continue-btn';
+                continueBtn.textContent = '✓ 上传完成，继续上传更多文件';
+                continueBtn.onclick = resetAll;
+                buttonContainer.appendChild(continueBtn);
+            }
+        };
+
+        const createFileRow = (item, index) => {
+            const row = document.createElement('div');
+            row.className = `file-row ${item.state}`;
+            row.dataset.index = index;
+
+            const file = item.file;
+            const progress = item.session ? Math.round((item.session.receivedChunks / item.session.totalChunks) * 100) : 0;
+            const speedText = item.speed ? formatSpeed(item.speed) : '';
+            const etaText = item.session && item.speed > 0
+                ? formatETA(item.session.totalSize - (item.session.receivedChunks * CHUNK_SIZE), item.speed)
+                : '';
+
+            const stateLabels = {
+                pending: '⏳ 待上传',
+                uploading: '📤 上传中',
+                paused: '⏸ 已暂停',
+                success: '✅ 上传成功',
+                error: '❌ 上传失败',
             };
 
-            const formatFileSize = (bytes) => {
-                if (!bytes) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
-            };
+            let removeDisabled = item.state === 'success' ? '' : '';
 
-            const handleSelection = (fileListObj) => {
-                const newFiles = Array.from(fileListObj);
-                const existingKeys = new Set(filesQueue.map(getFileKey));
-                newFiles.forEach((file) => {
-                    const key = getFileKey(file);
-                    if (existingKeys.has(key)) return;
-                    filesQueue.push(file);
-                    existingKeys.add(key);
+            row.innerHTML = `
+                <div class="file-meta">
+                    <div class="file-label">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatSize(file.size)}</div>
+                    </div>
+                    <button class="remove-btn" data-index="${index}" ${item.state === 'uploading' ? 'disabled' : ''}>移除</button>
+                </div>
+                <div class="file-status">
+                    <span>${stateLabels[item.state] || ''}</span>
+                    ${speedText ? `<span class="speed">${speedText}</span>` : ''}
+                    ${etaText ? `<span class="eta">剩余 ${etaText}</span>` : ''}
+                    ${item.session ? `<span class="chunks">分块 ${item.session.receivedChunks}/${item.session.totalChunks}</span>` : ''}
+                </div>
+                <div class="progress-bar"><div class="progress" style="width:${progress}%"></div></div>
+                <div class="progress-text">
+                    <span>${progress}%</span>
+                    <span>${item.savedFilename || ''}</span>
+                </div>`;
+            return row;
+        };
+
+        // ==================== File Selection ====================
+        const handleSelection = (fileListObj) => {
+            const newFiles = Array.from(fileListObj);
+            const existingKeys = new Set(filesQueue.map(i => getFileKey(i.file)));
+            newFiles.forEach(file => {
+                const key = getFileKey(file);
+                if (existingKeys.has(key)) return;
+                filesQueue.push({ file, state: 'pending', session: null, speed: 0, savedFilename: '', uploadController: null });
+                existingKeys.add(key);
+            });
+            refreshFileList();
+            statusMessage.style.display = 'none';
+        };
+
+        browseBtn.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target === browseBtn) return;
+            fileInput.click();
+        });
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault(); uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) handleSelection(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', () => {
+            if (!fileInput.files.length) return;
+            handleSelection(fileInput.files);
+            fileInput.value = '';
+        });
+
+        // ==================== Chunked Upload Logic ====================
+        async function startAllUploads() {
+            const toUpload = filesQueue.filter(i => i.state === 'pending' || i.state === 'error');
+            if (!toUpload.length) return;
+
+            isGlobalPaused = false;
+            statusMessage.style.display = 'none';
+
+            // Upload files concurrently (with a limit)
+            const batchSize = 2; // max concurrent file uploads
+            for (let i = 0; i < toUpload.length; i += batchSize) {
+                const batch = toUpload.slice(i, i + batchSize);
+                await Promise.all(batch.map(item => uploadFileChunked(item)));
+            }
+        }
+
+        async function uploadFileChunked(item) {
+            const file = item.file;
+            item.state = 'uploading';
+            item.speed = 0;
+            refreshFileList();
+
+            try {
+                // Step 1: Init session
+                const initRes = await fetch('/upload/init', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename: file.name, total_size: file.size }),
                 });
+
+                if (!initRes.ok) {
+                    const err = await initRes.json();
+                    item.state = 'error';
+                    refreshFileList();
+                    showStatus(`初始化失败: ${err.error}`, 'error');
+                    return;
+                }
+
+                const sessionData = await initRes.json();
+                item.session = {
+                    sessionId: sessionData.session_id,
+                    totalChunks: sessionData.total_chunks,
+                    chunkSize: sessionData.chunk_size,
+                    totalSize: file.size,
+                    receivedChunks: 0,
+                    finalFilename: sessionData.final_filename,
+                };
+                item.savedFilename = sessionData.final_filename;
                 refreshFileList();
-                statusMessage.style.display = 'none';
-            };
 
-            browseBtn.addEventListener('click', () => fileInput.click());
-            uploadArea.addEventListener('click', (e) => {
-                if (e.target === browseBtn) return;
-                fileInput.click();
-            });
+                // Step 2: Upload chunks with concurrency control
+                item.uploadController = { paused: false, cancelled: false };
 
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.classList.add('dragover');
-            });
+                let chunkIndex = 0;
+                let uploadedBytes = 0;
+                let lastTime = Date.now();
+                let speedSamples = [];
 
-            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.classList.remove('dragover');
-                if (e.dataTransfer.files.length) handleSelection(e.dataTransfer.files);
-            });
+                const uploadNextChunk = async () => {
+                    while (chunkIndex < item.session.totalChunks) {
+                        // Check pause/cancel
+                        if (item.uploadController.cancelled) throw new Error('Upload cancelled');
+                        while (item.uploadController.paused || isGlobalPaused) {
+                            item.state = 'paused';
+                            refreshFileList();
+                            await new Promise(r => setTimeout(r, 300));
+                            if (item.uploadController.cancelled) throw new Error('Upload cancelled');
+                        }
+                        item.state = 'uploading';
 
-            fileInput.addEventListener('change', () => {
-                if (!fileInput.files.length) return;
-                handleSelection(fileInput.files);
-                fileInput.value = '';
-            });
+                        const ci = chunkIndex++;
+                        const start = ci * item.session.chunkSize;
+                        const end = Math.min(start + item.session.chunkSize, file.size);
+                        const blob = file.slice(start, end);
 
-            const setStatus = (index, text, type = '') => {
-                const statusEl = document.getElementById(`status-${index}`);
-                if (!statusEl) return;
-                statusEl.textContent = text;
-                statusEl.className = type;
-            };
+                        const formData = new FormData();
+                        formData.append('session_id', item.session.sessionId);
+                        formData.append('chunk_index', ci);
+                        formData.append('chunk', blob);
 
-            const setProgress = (index, percent) => {
-                const bar = document.getElementById(`progress-${index}`);
-                const percentEl = document.getElementById(`percent-${index}`);
-                if (bar) bar.style.width = `${percent}%`;
-                if (percentEl) percentEl.textContent = `${percent}%`;
-            };
+                        const startTime = Date.now();
 
-            const uploadFiles = () => {
-                uploadsInProgress = true;
-                uploadBtn.disabled = true;
-                uploadBtn.textContent = '上传中...';
+                        const res = await fetch('/upload/chunk', { method: 'POST', body: formData });
 
-                const formData = new FormData();
-                filesQueue.forEach((file) => formData.append('files', file));
+                        if (!res.ok) {
+                            // Retry once on failure
+                            const retryRes = await fetch('/upload/chunk', { method: 'POST', body: formData });
+                            if (!retryRes.ok) throw new Error(`Chunk ${ci} upload failed`);
+                        }
 
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', '/upload');
+                        const chunkResult = await res.json();
+                        item.session.receivedChunks = chunkResult.received;
 
-                xhr.upload.addEventListener('progress', (e) => {
-                    if (!e.lengthComputable) return;
-                    const totalPercent = Math.round((e.loaded / e.total) * 100);
-                    const perFilePercent = Math.round(totalPercent / filesQueue.length);
-                    filesQueue.forEach((_, idx) => setProgress(idx, perFilePercent));
-                });
+                        // Speed calculation
+                        const elapsed = Date.now() - startTime;
+                        const chunkBytes = end - start;
+                        uploadedBytes += chunkBytes;
 
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState !== XMLHttpRequest.DONE) return;
-                    uploadsInProgress = false;
-                    uploadBtn.textContent = '开始上传';
+                        if (elapsed > 0) {
+                            const chunkSpeed = chunkBytes / (elapsed / 1000);
+                            speedSamples.push(chunkSpeed);
+                            if (speedSamples.length > 10) speedSamples.shift();
+                            item.speed = speedSamples.reduce((a, b) => a + b, 0) / speedSamples.length;
+                        }
 
-                    if (xhr.status === 200) {
-                        const { results } = JSON.parse(xhr.responseText);
-                        results.forEach((result, idx) => {
-                            setProgress(idx, 100);
-                            setStatus(idx, result.message, result.status);
-                        });
-                        showStatus('所有文件上传完成', 'success');
-                        continueBtn.style.display = 'block';
-                        uploadBtn.style.display = 'none';
-                    } else {
-                        showStatus('上传失败，请重试', 'error');
-                        uploadBtn.disabled = false;
+                        refreshFileList();
                     }
                 };
 
-                xhr.send(formData);
-            };
+                // Run with concurrency
+                const workers = [];
+                for (let w = 0; w < MAX_CONCURRENT_UPLOADS; w++) {
+                    workers.push(uploadNextChunk());
+                }
+                await Promise.all(workers);
 
-            const showStatus = (message, type) => {
-                statusMessage.textContent = message;
-                statusMessage.className = `status-message ${type}`;
-                statusMessage.style.display = 'block';
-            };
+                // Step 3: Complete upload
+                const completeRes = await fetch('/upload/complete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: item.session.sessionId }),
+                });
 
-            uploadBtn.addEventListener('click', uploadFiles);
-            continueBtn.addEventListener('click', () => {
-                filesQueue = [];
-                uploadBtn.style.display = 'none';
-                continueBtn.style.display = 'none';
-                fileInput.value = '';
-                statusMessage.style.display = 'none';
-                fileList.innerHTML = '';
+                if (!completeRes.ok) {
+                    const errData = await completeRes.json();
+                    // Check if it's missing chunks - we can retry
+                    if (errData.missing_chunks) {
+                        item.state = 'error';
+                        refreshFileList();
+                        showStatus(`部分分块缺失，请重试: ${errData.missing_chunks.length} 个分块`, 'error');
+                        return;
+                    }
+                    throw new Error(errData.error || 'Complete failed');
+                }
+
+                const completeData = await completeRes.json();
+                item.state = 'success';
+                item.speed = 0;
+                item.savedFilename = completeData.saved_filename;
                 refreshFileList();
-            });
 
-            fileList.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('remove-btn')) return;
-                const index = Number(e.target.dataset.index);
-                if (Number.isNaN(index)) return;
-                filesQueue.splice(index, 1);
-                refreshFileList();
-            });
+            } catch (err) {
+                if (err.message === 'Upload cancelled') {
+                    // Already handled by cancel function
+                } else {
+                    item.state = 'error';
+                    item.speed = 0;
+                    refreshFileList();
+                    showStatus(`上传失败: ${file.name} - ${err.message}`, 'error');
+                }
+            }
+        }
 
+        // ==================== Pause / Resume / Cancel ====================
+        function pauseAll() {
+            isGlobalPaused = true;
+            filesQueue.forEach(i => {
+                if (i.state === 'uploading' && i.uploadController) {
+                    i.uploadController.paused = true;
+                }
+            });
+            refreshFileList();
+        }
+
+        function resumeAll() {
+            isGlobalPaused = false;
+            filesQueue.forEach(i => {
+                if (i.state === 'paused' && i.uploadController) {
+                    i.uploadController.paused = false;
+                }
+            });
+            refreshFileList();
+            // Re-render periodically to update speed
+        }
+
+        async function cancelAll() {
+            const activeItems = filesQueue.filter(i => i.state === 'uploading' || i.state === 'paused');
+            for (const item of activeItems) {
+                if (item.uploadController) item.uploadController.cancelled = true;
+                if (item.session) {
+                    try {
+                        await fetch('/upload/cancel', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ session_id: item.session.sessionId }),
+                        });
+                    } catch (e) { /* ignore */ }
+                }
+                item.state = 'pending';
+                item.session = null;
+                item.uploadController = null;
+                item.speed = 0;
+            }
+            isGlobalPaused = false;
+            refreshFileList();
+            showStatus('所有上传已取消', 'error');
+        }
+
+        function resetAll() {
+            filesQueue = [];
+            isGlobalPaused = false;
+            statusMessage.style.display = 'none';
+            refreshFileList();
+        }
+
+        // ==================== Remove single file ====================
+        fileListEl.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('remove-btn')) return;
+            const index = Number(e.target.dataset.index);
+            if (Number.isNaN(index)) return;
+            const item = filesQueue[index];
+            if (item.uploadController) item.uploadController.cancelled = true;
+            filesQueue.splice(index, 1);
             refreshFileList();
         });
+
+        // ==================== Status Display ====================
+        const showStatus = (message, type) => {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+        };
+
+        // ==================== Auto-refresh during uploads ====================
+        let refreshTimer = null;
+        const startAutoRefresh = () => {
+            if (refreshTimer) return;
+            refreshTimer = setInterval(() => {
+                if (filesQueue.some(i => i.state === 'uploading')) {
+                    // Update total speed
+                    const totalSpeed = filesQueue
+                        .filter(i => i.state === 'uploading')
+                        .reduce((sum, i) => sum + i.speed, 0);
+                    totalSpeedEl.textContent = formatSpeed(totalSpeed);
+                } else {
+                    clearInterval(refreshTimer);
+                    refreshTimer = null;
+                }
+            }, 500);
+        };
+
+        // Watch for state changes to trigger auto-refresh
+        const originalRefresh = refreshFileList;
+        const wrappedRefresh = () => {
+            originalRefresh();
+            if (filesQueue.some(i => i.state === 'uploading')) startAutoRefresh();
+        };
+        // Override (we just call the original + start timer)
+        // Actually simpler: just start timer when uploads begin
+        filesQueue.push = function(...args) {
+            Array.prototype.push.apply(this, args);
+            wrappedRefresh();
+        };
+
+        refreshFileList();
+    });
     </script>
 </body>
 </html>
