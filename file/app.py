@@ -13,7 +13,7 @@ from pathlib import Path
 app = Flask(__name__)
 
 # ==================== Configuration ====================
-app.config['MAX_CONTENT_LENGTH'] = 30 * 1024 * 1024 * 1024  # 30GB (legacy endpoint)
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB per request (sufficient for 5MB chunks)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, 'uploads')
 app.config['TEMP_FOLDER'] = os.path.join(app.root_path, 'temp_uploads')
 app.config['CHUNK_SIZE'] = 5 * 1024 * 1024  # 5MB default chunk size
@@ -36,39 +36,6 @@ _WINDOWS_RESERVED_NAMES = {
     *(f'COM{i}' for i in range(1, 10)),
     *(f'LPT{i}' for i in range(1, 10)),
 }
-
-
-def _extract_filename_from_content_disposition(content_disposition: str | None) -> str | None:
-    """Best-effort filename extraction supporting RFC5987 filename*."""
-    if not content_disposition:
-        return None
-
-    m_star = re.search(r"filename\*=(?P<value>[^;]+)", content_disposition, flags=re.IGNORECASE)
-    if m_star:
-        value = m_star.group('value').strip().strip('"')
-        parts = value.split("''", 1)
-        if len(parts) == 2:
-            charset, encoded = parts
-            try:
-                raw = unquote(encoded)
-                if charset.lower() == 'utf-8':
-                    return raw
-                return raw.encode('latin-1', 'backslashreplace').decode(charset, 'ignore')
-            except Exception:
-                pass
-
-    m = re.search(r"filename=(?P<value>[^;]+)", content_disposition, flags=re.IGNORECASE)
-    if m:
-        return m.group('value').strip().strip('"')
-
-    return None
-
-
-def get_client_filename(file_storage) -> str:
-    """Try to get the best client-provided filename."""
-    cd = getattr(file_storage, 'content_disposition', None)
-    extracted = _extract_filename_from_content_disposition(cd)
-    return extracted or file_storage.filename or ''
 
 
 def sanitize_filename_keep_unicode(name: str, *, max_length: int = 200) -> str:
@@ -174,52 +141,6 @@ def format_file_size(size_bytes: int) -> str:
 @app.route('/')
 def upload_form():
     return render_template('submit.html')
-
-
-# ==================== Routes: Legacy Single Upload ====================
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    """Legacy single-request upload endpoint. Kept for backward compatibility.
-    For large files, prefer the chunked upload endpoints instead."""
-    if 'files' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-
-    files = [f for f in request.files.getlist('files') if f]
-    if not files:
-        return jsonify({'error': 'No files attached'}), 400
-
-    results = []
-    for uploaded in files:
-        original_filename = get_client_filename(uploaded)
-        if not original_filename:
-            results.append({'filename': '', 'status': 'failed', 'message': 'Empty filename'})
-            continue
-
-        safe_name = sanitize_filename_keep_unicode(original_filename)
-        if not safe_name:
-            safe_name = secure_filename(original_filename) or f"upload_{uuid.uuid4().hex}"
-
-        safe_name = resolve_name_conflict(app.config['UPLOAD_FOLDER'], safe_name)
-
-        target_path = os.path.join(app.config['UPLOAD_FOLDER'], safe_name)
-        try:
-            uploaded.save(target_path)
-            results.append({
-                'original_filename': original_filename,
-                'saved_filename': safe_name,
-                'status': 'success',
-                'message': 'Uploaded successfully',
-            })
-        except Exception as exc:
-            results.append({
-                'original_filename': original_filename,
-                'saved_filename': safe_name,
-                'status': 'failed',
-                'message': str(exc),
-            })
-
-    status_code = 200 if any(item['status'] == 'success' for item in results) else 400
-    return jsonify({'results': results}), status_code
 
 
 # ==================== Routes: Chunked Upload ====================
@@ -564,4 +485,4 @@ def disk_info():
 # ==================== Main ====================
 if __name__ == '__main__':
     # For production, use: gunicorn -w 4 -k gevent app:app
-    app.run(host='::', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
