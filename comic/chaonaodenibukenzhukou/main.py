@@ -115,7 +115,7 @@ for lianzai in lianzai_links:
 
     print("===============================")
 
-for i in range(1, len(fanwai_links)):
+for i in range(1, len(fanwai_links) + 1):
     fanwai = fanwai_links[i - 1]
     chapter_path = f'番外/{i}_{fanwai[2]}'
     os.makedirs(chapter_path, exist_ok=True)
