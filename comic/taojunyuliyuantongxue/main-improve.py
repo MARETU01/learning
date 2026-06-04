@@ -1,10 +1,49 @@
 import os
 import re
-import time
 
+from PIL import Image
 import requests
 from bs4 import BeautifulSoup
 import execjs
+
+def merge_jpg_to_long_image(folder_path):
+    img_files = [f for f in os.listdir(folder_path) if f.lower().endswith(".jpg")]
+    if not img_files:
+        return
+    # 按文件名数字排序
+    img_files.sort(key=lambda x: int(os.path.splitext(x)[0]))
+    # 分组：同宽度为一组
+    groups = []
+    current_group = [img_files[0]]
+    base_w = Image.open(os.path.join(folder_path, img_files[0])).width
+    for fname in img_files[1:]:
+        w = Image.open(os.path.join(folder_path, fname)).width
+        if w == base_w:
+            current_group.append(fname)
+        else:
+            groups.append(current_group)
+            current_group = [fname]
+            base_w = w
+    groups.append(current_group)
+
+    # 逐组合并
+    for g in groups:
+        start_num = int(os.path.splitext(g[0])[0])
+        end_num = int(os.path.splitext(g[-1])[0])
+        save_name = f"merge_{start_num}_{end_num}.jpg"
+        imgs = [Image.open(os.path.join(folder_path, f)) for f in g]
+        total_h = sum(i.height for i in imgs)
+        w = imgs[0].width
+        new_img = Image.new("RGB", (w, total_h))
+        y = 0
+        for im in imgs:
+            new_img.paste(im, (0, y))
+            y += im.height
+        # 无损保存
+        new_img.save(os.path.join(folder_path, save_name), "JPEG", quality=100)
+        for im in imgs:
+            im.close()
+        new_img.close()
 
 headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -120,6 +159,7 @@ for lianzai in lianzai_links:
         with open(f'{lianzai[2]}/{n}.jpg', 'wb') as f:
             f.write(response.content)
 
+    merge_jpg_to_long_image(f'{lianzai[2]}')
     print("===============================")
 
 for i in range(1, len(fanwai_links)):
@@ -195,4 +235,5 @@ for i in range(1, len(fanwai_links)):
         with open(f'{chapter_path}/{n}.jpg', 'wb') as f:
             f.write(response.content)
 
+    merge_jpg_to_long_image(f'{chapter_path}')
     print("===============================")
