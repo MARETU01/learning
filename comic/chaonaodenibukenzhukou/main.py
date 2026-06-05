@@ -24,7 +24,9 @@ headers = {
 
 base_url = 'https://www.1kkk.com/'
 
-response = requests.get(base_url + 'manhua78074/', headers=headers)
+mid = "78074"
+
+response = requests.get(base_url + 'manhua' + mid + '/', headers=headers)
 
 html = response.text
 
@@ -82,7 +84,7 @@ for lianzai in lianzai_links:
         "language": "1",
         "gtk": "6",
         "_cid": cid,
-        "_mid": "78074",
+        "_mid": mid,
         "_dt": dt,
         "_sign": sign
     }
@@ -149,7 +151,7 @@ for i in range(1, len(fanwai_links) + 1):
         "language": "1",
         "gtk": "6",
         "_cid": cid,
-        "_mid": "78074",
+        "_mid": mid,
         "_dt": dt,
         "_sign": sign
     }

@@ -64,10 +64,12 @@ headers = {
 
 base_url = 'https://www.1kkk.com/'
 
+mid = "17161"
+
 session = requests.session()
 session.headers.update(headers)
 
-response = session.get(base_url + 'manhua17161/')
+response = session.get(base_url + 'manhua' + mid + '/')
 
 html = response.text
 
@@ -126,7 +128,7 @@ for lianzai in lianzai_links:
         "language": "1",
         "gtk": "6",
         "_cid": cid,
-        "_mid": "17161",
+        "_mid": mid,
         "_dt": dt,
         "_sign": sign
     }
@@ -197,7 +199,7 @@ for i in range(1, len(fanwai_links) + 1):
         "language": "1",
         "gtk": "6",
         "_cid": cid,
-        "_mid": "17161",
+        "_mid": mid,
         "_dt": dt,
         "_sign": sign
     }
