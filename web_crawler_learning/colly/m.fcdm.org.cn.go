@@ -63,18 +63,16 @@ func downloadVideo(link VideoLink, videoURL string) {
 }
 
 func main() {
-	// 创建主收集器
-	cmain := colly.NewCollector(
+	// 只需要一个收集器即可
+	c := colly.NewCollector(
 		colly.AllowedDomains("m.fcdm.org.cn"),
 		colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"),
+		// 可选：添加并发和限速优化
+		colly.Async(true), // 开启异步模式
 	)
 
-	// 创建详情页收集器（继承主收集器的配置）
-	cdetail := cmain.Clone()
-
-	// 使用OnXML处理主页面（XPath方式）
-	cmain.OnXML("//div[contains(@class, 'video_info')]/h4", func(e *colly.XMLElement) {
-		// 提取动漫名称
+	// 处理主页面：提取动漫名称
+	c.OnXML("//div[contains(@class, 'video_info')]/h4", func(e *colly.XMLElement) {
 		titleText := strings.TrimSpace(e.Text)
 		matches := nameRegex.FindStringSubmatch(titleText)
 		if len(matches) < 2 {
@@ -90,12 +88,12 @@ func main() {
 			return
 		}
 
-		// 存储动漫名称到上下文，供后续使用
+		// 存储动漫名称到上下文
 		e.Request.Ctx.Put("animeName", animeName)
 	})
 
-	// 使用OnXML提取所有集数链接（XPath方式）
-	cmain.OnXML("(//div[contains(@class, 'vlink')])[1]//a", func(e *colly.XMLElement) {
+	// 处理主页面：提取所有集数链接
+	c.OnXML("(//div[contains(@class, 'vlink')])[1]//a", func(e *colly.XMLElement) {
 		animeName := e.Request.Ctx.Get("animeName")
 		if animeName == "" {
 			return
@@ -110,21 +108,20 @@ func main() {
 		}
 
 		// 构造完整URL并访问详情页
-		fullURL := baseURL + href
 		videoLink := VideoLink{
 			Name:  animeName,
 			Title: title,
-			URL:   fullURL,
+			URL:   baseURL + href,
 		}
 
-		// 将视频链接信息传递给详情页收集器
+		// 传递上下文并访问详情页（直接用同一个收集器）
 		ctx := colly.NewContext()
 		ctx.Put("videoLink", videoLink)
-		cdetail.Request("GET", fullURL, nil, ctx, nil)
+		c.Request("GET", videoLink.URL, nil, ctx, nil)
 	})
 
-	// 使用OnXML处理详情页，提取包含player_aaaa的script标签
-	cdetail.OnXML("//script[contains(text(), 'player_aaaa')]", func(e *colly.XMLElement) {
+	// 处理详情页：提取视频播放地址
+	c.OnXML("//script[contains(text(), 'player_aaaa')]", func(e *colly.XMLElement) {
 		videoLink, ok := e.Request.Ctx.GetAny("videoLink").(VideoLink)
 		if !ok {
 			fmt.Println("获取视频链接信息失败")
@@ -147,13 +144,9 @@ func main() {
 		downloadVideo(videoLink, videoURL)
 	})
 
-	// 错误处理
-	cmain.OnError(func(r *colly.Response, err error) {
+	// 全局错误处理
+	c.OnError(func(r *colly.Response, err error) {
 		fmt.Printf("请求失败: %s, 错误: %v\n", r.Request.URL, err)
-	})
-
-	cdetail.OnError(func(r *colly.Response, err error) {
-		fmt.Printf("详情页请求失败: %s, 错误: %v\n", r.Request.URL, err)
 	})
 
 	// 遍历所有动漫ID开始爬取
@@ -163,9 +156,11 @@ func main() {
 		go func(id int) {
 			defer wg.Done()
 			url := fmt.Sprintf("%s/p/%d/", baseURL, id)
-			if err := cmain.Visit(url); err != nil {
+			if err := c.Visit(url); err != nil {
 				fmt.Printf("访问主页面失败: %s, 错误: %v\n", url, err)
 			}
+			// 等待当前动漫的所有详情页请求完成
+			c.Wait()
 		}(vid)
 	}
 	wg.Wait()
