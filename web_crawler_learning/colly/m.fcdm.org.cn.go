@@ -18,6 +18,11 @@ const (
 )
 
 var (
+	// 需要爬取的动漫ID列表
+	vids = []int{
+		// 关于邻家的天使大人不知不觉把我惯成了废人这档子事第二季
+		40207,
+	}
 	// 预编译正则表达式
 	nameRegex = regexp.MustCompile(`【(.*?)】`)
 	urlRegex  = regexp.MustCompile(`"url":"(.*?)"`)
@@ -30,13 +35,34 @@ type VideoLink struct {
 	URL   string // 详情页链接
 }
 
-func main() {
-	// 需要爬取的动漫ID列表
-	vids := []int{
-		// 关于邻家的天使大人不知不觉把我惯成了废人这档子事第二季
-		40207,
+// 使用ffmpeg下载视频
+func downloadVideo(link VideoLink, videoURL string) {
+	savePath := filepath.Join(link.Name, fmt.Sprintf("%s.mp4", link.Title))
+	fmt.Printf("开始下载 %s...\n", link.Title)
+
+	// 构造ffmpeg命令
+	cmd := exec.Command(
+		ffmpegPath,
+		"-i", videoURL,
+		"-c", "copy",
+		"-y", // 覆盖已存在的文件
+		savePath,
+	)
+
+	fmt.Println(cmd)
+
+	// 执行命令并等待完成
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("下载 %s 失败: %v\n输出: %s\n", link.Title, err, string(output))
+		return
 	}
 
+	fmt.Printf("%s.mp4 下载完成！\n", link.Title)
+	fmt.Println("=====================================")
+}
+
+func main() {
 	// 创建主收集器
 	cmain := colly.NewCollector(
 		colly.AllowedDomains("m.fcdm.org.cn"),
@@ -69,7 +95,7 @@ func main() {
 	})
 
 	// 使用OnXML提取所有集数链接（XPath方式）
-	cmain.OnXML("//div[contains(@class, 'vlink')]//a", func(e *colly.XMLElement) {
+	cmain.OnXML("(//div[contains(@class, 'vlink')])[1]//a", func(e *colly.XMLElement) {
 		animeName := e.Request.Ctx.Get("animeName")
 		if animeName == "" {
 			return
@@ -145,31 +171,4 @@ func main() {
 	wg.Wait()
 
 	fmt.Println("所有爬取任务完成！")
-}
-
-// 使用ffmpeg下载视频
-func downloadVideo(link VideoLink, videoURL string) {
-	savePath := filepath.Join(link.Name, fmt.Sprintf("%s.mp4", link.Title))
-	fmt.Printf("开始下载 %s...\n", link.Title)
-
-	// 构造ffmpeg命令
-	cmd := exec.Command(
-		ffmpegPath,
-		"-i", videoURL,
-		"-c", "copy",
-		"-y", // 覆盖已存在的文件
-		savePath,
-	)
-
-	fmt.Println(cmd)
-
-	// 执行命令并等待完成
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		fmt.Printf("下载 %s 失败: %v\n输出: %s\n", link.Title, err, string(output))
-		return
-	}
-
-	fmt.Printf("%s.mp4 下载完成！\n", link.Title)
-	fmt.Println("=====================================")
 }
