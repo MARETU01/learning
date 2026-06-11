@@ -246,10 +246,6 @@ func main() {
 
 	// 获取图片响应并下载图片
 	c.OnResponse(func(r *colly.Response) {
-		if !strings.Contains(r.Request.URL.String(), ".jpg") {
-			return
-		}
-
 		savePath := r.Ctx.Get("savePath")
 		if savePath == "" {
 			return
