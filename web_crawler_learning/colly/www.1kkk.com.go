@@ -268,16 +268,13 @@ func main() {
 	// 遍历所有漫画ID开始爬取
 	var wg sync.WaitGroup
 	for _, mid := range kkkMids {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			url := fmt.Sprintf("%s/manhua%d/", kkkBaseURL, id)
+		wg.Go(func() {
+			url := fmt.Sprintf("%s/manhua%d/", kkkBaseURL, mid)
 			if err := c.Visit(url); err != nil {
 				fmt.Printf("访问主页面失败: %s, 错误: %v\n", url, err)
 			}
-			// 等待当前漫画的所有详情页请求完成
 			c.Wait()
-		}(mid)
+		})
 	}
 	wg.Wait()
 }

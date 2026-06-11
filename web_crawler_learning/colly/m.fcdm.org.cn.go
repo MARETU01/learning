@@ -152,16 +152,14 @@ func main() {
 	// 遍历所有动漫ID开始爬取
 	var wg sync.WaitGroup
 	for _, vid := range fcdmVids {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			url := fmt.Sprintf("%s/p/%d/", fcdmBaseURL, id)
+		wg.Go(func() {
+			url := fmt.Sprintf("%s/p/%d/", fcdmBaseURL, vid)
 			if err := c.Visit(url); err != nil {
 				fmt.Printf("访问主页面失败: %s, 错误: %v\n", url, err)
 			}
 			// 等待当前动漫的所有详情页请求完成
 			c.Wait()
-		}(vid)
+		})
 	}
 	wg.Wait()
 
