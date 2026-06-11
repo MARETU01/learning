@@ -13,19 +13,19 @@ import (
 )
 
 const (
-	ffmpegPath = `C:\Program Files\Cubase 13\Externals\FFmpeg\5.1.1\ffmpeg.exe`
-	baseURL    = "https://m.fcdm.org.cn"
+	ffmpegPath  = `C:\Program Files\Cubase 13\Externals\FFmpeg\5.1.1\ffmpeg.exe`
+	fcdmBaseURL = "https://m.fcdm.org.cn"
 )
 
 var (
 	// 需要爬取的动漫ID列表
-	vids = []int{
+	fcdmVids = []int{
 		// 关于邻家的天使大人不知不觉把我惯成了废人这档子事第二季
 		40207,
 	}
 	// 预编译正则表达式
-	nameRegex = regexp.MustCompile(`【(.*?)】`)
-	urlRegex  = regexp.MustCompile(`"url":"(.*?)"`)
+	fcdmNameRegex = regexp.MustCompile(`【(.*?)】`)
+	fcdmRrlRegex  = regexp.MustCompile(`"url":"(.*?)"`)
 )
 
 // 视频链接信息
@@ -74,7 +74,7 @@ func main() {
 	// 处理主页面：提取动漫名称
 	c.OnXML("//div[contains(@class, 'video_info')]/h4", func(e *colly.XMLElement) {
 		titleText := strings.TrimSpace(e.Text)
-		matches := nameRegex.FindStringSubmatch(titleText)
+		matches := fcdmNameRegex.FindStringSubmatch(titleText)
 		if len(matches) < 2 {
 			fmt.Println("无法提取动漫名称:", titleText)
 			return
@@ -111,7 +111,7 @@ func main() {
 		videoLink := VideoLink{
 			Name:  animeName,
 			Title: title,
-			URL:   baseURL + href,
+			URL:   fcdmBaseURL + href,
 		}
 
 		// 传递上下文并访问详情页（直接用同一个收集器）
@@ -130,7 +130,7 @@ func main() {
 
 		// 从script内容中提取视频URL
 		scriptContent := e.Text
-		matches := urlRegex.FindStringSubmatch(scriptContent)
+		matches := fcdmRrlRegex.FindStringSubmatch(scriptContent)
 		if len(matches) < 2 {
 			fmt.Printf("无法提取视频URL: %s\n", videoLink.Title)
 			return
@@ -151,11 +151,11 @@ func main() {
 
 	// 遍历所有动漫ID开始爬取
 	var wg sync.WaitGroup
-	for _, vid := range vids {
+	for _, vid := range fcdmVids {
 		wg.Add(1)
 		go func(id int) {
 			defer wg.Done()
-			url := fmt.Sprintf("%s/p/%d/", baseURL, id)
+			url := fmt.Sprintf("%s/p/%d/", fcdmBaseURL, id)
 			if err := c.Visit(url); err != nil {
 				fmt.Printf("访问主页面失败: %s, 错误: %v\n", url, err)
 			}
