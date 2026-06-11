@@ -32,7 +32,7 @@ var (
 type fcdmVideoLink struct {
 	Name  string // 动漫名称
 	Title string // 集数标题
-	URL   string // 详情页链接
+	Href  string // 详情页链接
 }
 
 // 使用ffmpeg下载视频
@@ -111,13 +111,13 @@ func main() {
 		videoLink := fcdmVideoLink{
 			Name:  animeName,
 			Title: title,
-			URL:   fcdmBaseURL + href,
+			Href:  href,
 		}
 
 		// 传递上下文并访问详情页（直接用同一个收集器）
 		ctx := colly.NewContext()
 		ctx.Put("videoLink", videoLink)
-		c.Request("GET", videoLink.URL, nil, ctx, nil)
+		c.Request("GET", fcdmBaseURL+href, nil, ctx, nil)
 	})
 
 	// 处理详情页：提取视频播放地址
