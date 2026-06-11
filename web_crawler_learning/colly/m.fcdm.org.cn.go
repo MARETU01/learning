@@ -29,14 +29,14 @@ var (
 )
 
 // 视频链接信息
-type VideoLink struct {
+type fcdmVideoLink struct {
 	Name  string // 动漫名称
 	Title string // 集数标题
 	URL   string // 详情页链接
 }
 
 // 使用ffmpeg下载视频
-func downloadVideo(link VideoLink, videoURL string) {
+func downloadVideo(link fcdmVideoLink, videoURL string) {
 	savePath := filepath.Join(link.Name, fmt.Sprintf("%s.mp4", link.Title))
 	fmt.Printf("开始下载 %s...\n", link.Title)
 
@@ -108,7 +108,7 @@ func main() {
 		}
 
 		// 构造完整URL并访问详情页
-		videoLink := VideoLink{
+		videoLink := fcdmVideoLink{
 			Name:  animeName,
 			Title: title,
 			URL:   fcdmBaseURL + href,
@@ -122,7 +122,7 @@ func main() {
 
 	// 处理详情页：提取视频播放地址
 	c.OnXML("//script[contains(text(), 'player_aaaa')]", func(e *colly.XMLElement) {
-		videoLink, ok := e.Request.Ctx.GetAny("videoLink").(VideoLink)
+		videoLink, ok := e.Request.Ctx.GetAny("videoLink").(fcdmVideoLink)
 		if !ok {
 			fmt.Println("获取视频链接信息失败")
 			return
