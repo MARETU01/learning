@@ -7,10 +7,12 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/dop251/goja"
 	"github.com/gocolly/colly/v2"
 )
@@ -105,47 +107,64 @@ func main() {
 	})
 
 	// 处理主页面：提取所有集数链接
-	c.OnHTML("#detail-list-select-1 li a, #detail-list-select-3 li a", func(e *colly.HTMLElement) {
+	c.OnHTML("#detail-list-select-1, #detail-list-select-3", func(e *colly.HTMLElement) {
 		comicName := e.Request.Ctx.Get("comicName")
 		if comicName == "" {
 			return
 		}
 
-		// 提取链接、标题和页数
-		href := e.Attr("href")
-		titleText := strings.TrimSpace(e.Text)
-		match := kkkPagesRegex.FindStringSubmatch(titleText)
-		pages := 0
-		if len(match) > 1 {
-			// 字符串转数字
-			pages, _ = strconv.Atoi(match[1])
-		}
-		title := kkkPagesRegex.ReplaceAllString(titleText, "")
-		title = strings.TrimSpace(title)
+		// 判断是否为番外
+		isFanWai := e.DOM.Is("#detail-list-select-3")
 
-		if href == "" || title == "" || pages == 0 {
+		// 获取 li 元素列表
+		liElements := e.DOM.Find("li")
+		if liElements.Length() == 0 {
 			return
 		}
+		// 逆序遍历 li 元素，从第1集开始爬取
+		var liSlice []*goquery.Selection
+		liElements.Each(func(_ int, li *goquery.Selection) {
+			liSlice = append(liSlice, li)
+		})
+		slices.Reverse(liSlice)
 
-		var isFanWai bool
-		ulElement := e.DOM.Closest("ul")
-		if ulID, _ := ulElement.Attr("id"); ulID == "detail-list-select-3" {
-			isFanWai = true
+		for _, li := range liSlice {
+			// 获取链接 a 元素
+			a := li.Find("a")
+			if a.Length() == 0 {
+				continue
+			}
+
+			// 提取链接、标题和页数
+			href, _ := a.Attr("href")
+			titleText := strings.TrimSpace(a.Text())
+			match := kkkPagesRegex.FindStringSubmatch(titleText)
+			pages := 0
+			if len(match) > 1 {
+				// 字符串转数字
+				pages, _ = strconv.Atoi(match[1])
+			}
+			title := kkkPagesRegex.ReplaceAllString(titleText, "")
+			title = strings.TrimSpace(title)
+
+			if href == "" || title == "" || pages == 0 {
+				return
+			}
+
+			// 构造完整URL并访问详情页
+			comicLink := kkkComicLink{
+				Name:     comicName,
+				Title:    title,
+				Pages:    pages,
+				Href:     href,
+				IsFanWai: isFanWai,
+			}
+
+			// 传递上下文并访问详情页（直接用同一个收集器）
+			ctx := colly.NewContext()
+			ctx.Put("comicLink", comicLink)
+			c.Request("GET", kkkBaseURL+comicLink.Href, nil, ctx, nil)
 		}
-
-		// 构造完整URL并访问详情页
-		comicLink := kkkComicLink{
-			Name:     comicName,
-			Title:    title,
-			Pages:    pages,
-			Href:     href,
-			IsFanWai: isFanWai,
-		}
-
-		// 传递上下文并访问详情页（直接用同一个收集器）
-		ctx := colly.NewContext()
-		ctx.Put("comicLink", comicLink)
-		c.Request("GET", kkkBaseURL+comicLink.Href, nil, ctx, nil)
 	})
 
 	// 处理详情页：提取图片地址
