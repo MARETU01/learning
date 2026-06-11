@@ -195,8 +195,7 @@ func main() {
 			e.Request.Ctx.Put("page", strconv.Itoa(i))
 			imgScriptUrl := fmt.Sprintf("%s%schapterfun.ashx?%s", kkkBaseURL, comicLink.Href, params.Encode())
 			c.Request("GET", imgScriptUrl, nil, e.Request.Ctx, http.Header{
-				"Referer":          []string{kkkBaseURL + comicLink.Href},
-				"X-Requested-With": []string{"XMLHttpRequest"},
+				"Referer": []string{kkkBaseURL + comicLink.Href},
 			})
 		}
 	})
@@ -222,8 +221,7 @@ func main() {
 		ctx := colly.NewContext()
 		ctx.Put("savePath", filepath.Join(chapterDir, fmt.Sprintf("%s.jpg", page)))
 		c.Request("GET", imgUrl, nil, ctx, http.Header{
-			"Referer":  []string{kkkBaseURL + comicLink.Href},
-			"priority": []string{"u=1, i"},
+			"Referer": []string{kkkBaseURL + comicLink.Href},
 		})
 	})
 
