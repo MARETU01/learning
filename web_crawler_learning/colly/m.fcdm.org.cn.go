@@ -36,9 +36,8 @@ type fcdmVideoLink struct {
 }
 
 // 使用ffmpeg下载视频
-func downloadVideo(link fcdmVideoLink, videoURL string) {
-	savePath := filepath.Join(link.Name, fmt.Sprintf("%s.mp4", link.Title))
-	fmt.Printf("开始下载 %s...\n", link.Title)
+func ffmpeg(savePath string, videoURL string) {
+	fmt.Printf("开始下载 %s...\n", savePath)
 
 	// 构造ffmpeg命令
 	cmd := exec.Command(
@@ -54,11 +53,11 @@ func downloadVideo(link fcdmVideoLink, videoURL string) {
 	// 执行命令并等待完成
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("下载 %s 失败: %v\n输出: %s\n", link.Title, err, string(output))
+		fmt.Printf("下载 %s 失败: %v\n输出: %s\n", savePath, err, string(output))
 		return
 	}
 
-	fmt.Printf("%s.mp4 下载完成！\n", link.Title)
+	fmt.Printf("%s.mp4 下载完成！\n", savePath)
 	fmt.Println("=====================================")
 }
 
@@ -141,7 +140,7 @@ func main() {
 		fmt.Printf("%s: %s\n", videoLink.Title, videoURL)
 
 		// 下载视频
-		downloadVideo(videoLink, videoURL)
+		ffmpeg(filepath.Join(videoLink.Name, fmt.Sprintf("%s.mp4", videoLink.Title)), videoURL)
 	})
 
 	// 全局错误处理
