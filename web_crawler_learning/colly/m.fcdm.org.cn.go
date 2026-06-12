@@ -1,6 +1,7 @@
 package main
 
 import (
+	"colly/utils"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -12,7 +13,6 @@ import (
 )
 
 const (
-	ffmpegPath  = `C:\Program Files\Cubase 13\Externals\FFmpeg\5.1.1\ffmpeg.exe`
 	fcdmBaseURL = "https://m.fcdm.org.cn"
 )
 
@@ -113,7 +113,7 @@ func main() {
 		fmt.Printf("%s: %s\n", videoLink.Title, videoURL)
 
 		// 下载视频
-		ffmpeg(filepath.Join(videoLink.Name, fmt.Sprintf("%s.mp4", videoLink.Title)), videoURL)
+		utils.DownloadVideoWithffmpeg(filepath.Join(videoLink.Name, fmt.Sprintf("%s.mp4", videoLink.Title)), videoURL)
 	})
 
 	// 全局错误处理
