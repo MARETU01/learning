@@ -29,6 +29,6 @@ func DownloadVideoWithffmpeg(savePath string, videoURL string) {
 		return
 	}
 
-	fmt.Printf("%s.mp4 下载完成！\n", savePath)
+	fmt.Printf("%s 下载完成！\n", savePath)
 	fmt.Println("=====================================")
 }
