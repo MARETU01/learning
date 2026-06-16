@@ -485,4 +485,4 @@ def disk_info():
 # ==================== Main ====================
 if __name__ == '__main__':
     # For production, use: gunicorn -w 4 -k gevent app:app
-    app.run(host='::', port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
