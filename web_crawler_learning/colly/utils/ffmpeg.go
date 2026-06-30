@@ -8,7 +8,7 @@ import (
 const ffmpegPath = `C:\Program Files\Cubase 13\Externals\FFmpeg\5.1.1\ffmpeg.exe`
 
 // 使用ffmpeg下载视频
-func DownloadVideoWithffmpeg(savePath string, videoURL string) {
+func DownloadVideoWithffmpeg(savePath, videoURL string) {
 	fmt.Printf("开始下载 %s...\n", savePath)
 
 	// 构造ffmpeg命令
