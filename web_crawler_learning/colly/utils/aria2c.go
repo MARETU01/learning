@@ -10,7 +10,7 @@ const aria2cPath = `C:\Users\26360\Desktop\Projects\Tools\aria2c\aria2c.exe`
 func DownloadMP4Witharia2c(savePath, videoURL string) {
 	fmt.Printf("开始下载 %s...\n", savePath)
 
-	// 构造ffmpeg命令
+	// 构造aria2c命令
 	cmd := exec.Command(
 		aria2cPath,
 		"-x16",
