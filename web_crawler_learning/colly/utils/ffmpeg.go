@@ -50,7 +50,7 @@ func DownloadVideoWithffmpeg(savePath, videoURL string) {
 		savePath,
 	)
 
-	fmt.Println(cmd)
+	fmt.Println("cmd: ", cmd)
 
 	// 执行命令并等待完成
 	output, err := cmd.CombinedOutput()
@@ -60,5 +60,30 @@ func DownloadVideoWithffmpeg(savePath, videoURL string) {
 	}
 
 	fmt.Printf("%s 下载完成！\n", savePath)
+	fmt.Println("=====================================")
+}
+
+func ConcatTsWithffmpeg(localM3u8, savePath string) {
+	fmt.Printf("开始合并 %s...\n", savePath)
+
+	// 构造ffmpeg命令
+	cmd := exec.Command(
+		ffmpegPath,
+		"-allowed_extensions", "ALL",
+		"-i", localM3u8,
+		"-c", "copy",
+		savePath,
+	)
+
+	fmt.Println("cmd: ", cmd)
+
+	// 执行命令并等待完成
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("合并 %s 失败: %v\n输出: %s\n", savePath, err, string(output))
+		return
+	}
+
+	fmt.Printf("%s 合并完成！\n", savePath)
 	fmt.Println("=====================================")
 }

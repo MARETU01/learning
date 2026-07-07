@@ -49,7 +49,7 @@ func DownloadMP4Witharia2c(savePath, videoURL string) {
 		videoURL,
 	)
 
-	fmt.Println(cmd)
+	fmt.Println("cmd: ", cmd)
 
 	// 执行命令并等待完成
 	output, err := cmd.CombinedOutput()
@@ -74,7 +74,7 @@ func DownloadM3U8Witharia2c(txt, savePath string) {
 		"-d", savePath,
 	)
 
-	fmt.Println(cmd)
+	fmt.Println("cmd: ", cmd)
 
 	// 执行命令并等待完成
 	output, err := cmd.CombinedOutput()
