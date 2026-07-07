@@ -31,8 +31,8 @@ func init() {
 	}
 
 	// 读取环境变量
-	ffmpegPath = os.Getenv("ARIA2C")
-	if ffmpegPath == "" {
+	aria2cPath = os.Getenv("ARIA2C")
+	if aria2cPath == "" {
 		panic("utils/.env 中未配置 ARIA2C")
 	}
 }
@@ -47,6 +47,31 @@ func DownloadMP4Witharia2c(savePath, videoURL string) {
 		"-s16",
 		"-o", savePath,
 		videoURL,
+	)
+
+	fmt.Println(cmd)
+
+	// 执行命令并等待完成
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("下载 %s 失败: %v\n输出: %s\n", savePath, err, string(output))
+		return
+	}
+
+	fmt.Printf("%s 下载完成！\n", savePath)
+	fmt.Println("=====================================")
+}
+
+func DownloadM3U8Witharia2c(txt, savePath string) {
+	fmt.Printf("开始下载 %s...\n", savePath)
+
+	// 构造aria2c命令
+	cmd := exec.Command(
+		aria2cPath,
+		"-x16",
+		"-s16",
+		"-i", txt,
+		"-d", savePath,
 	)
 
 	fmt.Println(cmd)
