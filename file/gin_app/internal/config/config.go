@@ -11,6 +11,9 @@ const (
 	MaxContentLength = 50 * 1024 * 1024 // 单次请求最大 50MB
 	ChunkSize        = 5 * 1024 * 1024  // 默认分块大小 5MB
 	ServerPort       = ":80"
+	ServerPortTLS    = ":443"
+	CertFile         = "D:/Tools/lego/.lego/certificates/maretu.top.crt"
+	KeyFile          = "D:/Tools/lego/.lego/certificates/maretu.top.key"
 )
 
 var (

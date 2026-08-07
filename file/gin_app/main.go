@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"gin_app/internal/config"
@@ -15,6 +16,15 @@ func main() {
 	uploadService := service.NewUploadService()
 	uploadHandler := handler.NewUploadHandler(uploadService)
 	r := router.SetupRouter(uploadHandler)
+
+	enableTLS := flag.Bool("tls", false, "enable https tls server, use -tls=true to open")
+	flag.Parse()
+	if *enableTLS {
+		log.Printf("启动 Gin 文件上传服务器，端口 %s", config.ServerPortTLS)
+		if err := r.RunTLS(config.ServerPortTLS, config.CertFile, config.KeyFile); err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	log.Printf("启动 Gin 文件上传服务器，端口 %s", config.ServerPort)
 
