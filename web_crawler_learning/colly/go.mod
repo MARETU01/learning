@@ -4,7 +4,7 @@ go 1.26.2
 
 require (
 	github.com/PuerkitoBio/goquery v1.12.0
-	github.com/dop251/goja v0.0.0-20260806115107-493f22071ef6
+	github.com/dop251/goja v0.0.0-20260822123354-58e940e0d230
 	github.com/gocolly/colly/v2 v2.3.0
 	github.com/joho/godotenv v1.5.1
 )
