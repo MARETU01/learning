@@ -1,8 +1,11 @@
 import asyncio
+import sys
+from pathlib import Path
 from playwright.async_api import async_playwright
 
 
-custom_browser_path = r"D:\Projects\learning\.venv\ms-playwright\chromium-1234\chrome-win64\chrome.exe"
+venv_dir = Path(sys.executable).parent.parent
+custom_browser_path = venv_dir / "ms-playwright" / "chromium-1234" / "chrome-win64" / "chrome.exe"
 
 async def main():
     async with async_playwright() as p:
