@@ -6,7 +6,7 @@ async def main():
     async with async_playwright() as p:
         # 启动 Chromium
         context = await p.chromium.launch_persistent_context(
-            user_data_dir="./modescope",
+            user_data_dir="data",
             executable_path=custom_browser_path,
             headless=True,
             args=[
