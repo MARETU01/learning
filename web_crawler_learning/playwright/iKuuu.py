@@ -18,7 +18,7 @@ async def main():
         context = await browser.new_context()
         page = await context.new_page()
 
-        await page.goto("https://ikuuu.foo/auth/login")
+        await page.goto("https://ikuuu.top/auth/login")
 
         email_input = page.locator("//input[@id='email']")
         await email_input.fill(sys.argv[1])
