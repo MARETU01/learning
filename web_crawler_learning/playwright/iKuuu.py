@@ -1,13 +1,12 @@
 import asyncio
 import sys
 from playwright.async_api import async_playwright
-from init import custom_browser_path
+from init import setup
 
 async def main():
     async with async_playwright() as p:
         # 启动 Chromium
         browser = await p.chromium.launch(
-            executable_path=custom_browser_path,
             headless=True,
             args=[
                 "--disable-blink-features=AutomationControlled",
@@ -44,4 +43,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    setup()
     asyncio.run(main())
