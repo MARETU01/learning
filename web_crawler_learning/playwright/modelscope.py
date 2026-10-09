@@ -24,6 +24,8 @@ async def main():
             print(f"第{i + 1}次点击")
             await asyncio.sleep(1)
 
+        await context.close()
+
 
 if __name__ == "__main__":
     setup()
