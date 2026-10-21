@@ -28,5 +28,18 @@ func SetupRouter(h *handler.UploadHandler) *gin.Engine {
 	r.POST("/delete/*filename", h.DeleteFile)
 	r.GET("/api/disk-info", h.DiskInfo)
 
+	api := r.Group("/api")
+	{
+		api.GET("/", h.UploadForm)
+		api.POST("/upload/init", h.UploadInit)
+		api.POST("/upload/chunk", h.UploadChunk)
+		api.GET("/upload/status/:session_id", h.UploadStatus)
+		api.POST("/upload/complete", h.UploadComplete)
+		api.POST("/upload/cancel", h.UploadCancel)
+		api.GET("/files", h.ListUploads)
+		api.GET("/uploads/*filename", h.DownloadUpload)
+		api.POST("/delete/*filename", h.DeleteFile)
+	}
+
 	return r
 }
